@@ -184,6 +184,10 @@
   td.t { color: var(--accent3); font-weight: 700; }
   td.f { color: var(--accent2); font-weight: 700; }
 
+  .status { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+  .status.unsat { background: rgba(208,84,42,.12); color: var(--accent4); border: 1px solid var(--warn-border); }
+  .status.appr { background: rgba(201,138,18,.12); color: #8a5d06; border: 1px solid #ecd39a; }
+  .status.ok { background: rgba(31,138,91,.1); color: var(--accent3); border: 1px solid var(--tip-border); }
   /* ── LISTS ── */
   ul, ol { padding-left: 22px; margin: 8px 0; }
   li { margin-bottom: 5px; }
@@ -435,70 +439,64 @@
   <!-- ═══════════ STUDY PLAN ═══════════ -->
   <section id="plan">
     <h2>1-Week Study Plan <span class="chip">Strategy</span></h2>
-    <p class="section-intro">Seven days, ordered by exam weight. Heaviest topics get the most time and come first, so they also get the most review. Each day: read the section, open every example toggle, answer the section Q&amp;A without peeking, then tap <strong>Mark section complete</strong>.</p>
+    <p class="section-intro">Ordered by your pre-assessment. The four <strong>Unsatisfactory</strong> topics come first (56% of the exam), then the three <strong>Approaching Competence</strong> topics. Each day: read the section, open every example toggle, answer the section Q&amp;A without peeking, then tap <strong>Mark section complete</strong>.</p>
 
     <div class="day-card open" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 1</span><span class="day-focus">Logic &amp; Proofs, part 1 · ~22% (≈11 Q)</span></div>
+      <div class="day-header"><span class="day-title">Day 1</span><span class="day-focus">Relations · 16% · Unsatisfactory</span></div>
       <div class="day-body"><ul>
-        <li>Learn the six connectives and their truth tables (¬, ∧, ∨, ⊕, →, ↔)</li>
-        <li>Memorize when <span class="m">p → q</span> is false (only T → F)</li>
-        <li>Converse, inverse, contrapositive: know which pair is equivalent</li>
-        <li>Logical equivalences: De Morgan, <span class="m">p → q ≡ ¬p ∨ q</span>, tautology/contradiction</li>
-        <li>Quantifiers and negating them</li>
+        <li>Binary relations and their digraphs; reflexive, symmetric, antisymmetric, transitive</li>
+        <li>Graph powers: <span class="m">Rⁿ</span>, paths of length n, Boolean matrix powers, transitive closure</li>
+        <li>n-ary relations and databases: degree, primary key, selection, projection, join</li>
+        <li>Order relations: partial orders, Hasse diagrams; equivalence classes and partitions</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 2</span><span class="day-focus">Logic &amp; Proofs, part 2 · inference, proofs, induction</span></div>
+      <div class="day-header"><span class="day-title">Day 2</span><span class="day-focus">Graphs &amp; Trees · 16% · Unsatisfactory</span></div>
       <div class="day-body"><ul>
-        <li>Rules of inference: name each one from its form (modus ponens, modus tollens, syllogisms…)</li>
-        <li>Two fallacies: affirming the conclusion, denying the hypothesis</li>
-        <li>Proof methods: direct, contrapositive, contradiction, cases, counterexample</li>
-        <li>Induction: basis step, inductive hypothesis, inductive step</li>
-        <li>Do all Topic 1 Q&amp;A cards, then 10 minutes of mock exam</li>
+        <li>Undirected graphs: degree, handshaking, special graphs, adjacency matrices</li>
+        <li>Paths, circuits, cycles: Euler vs Hamilton, counting cycles, directed cycles</li>
+        <li>Paths and cycles in trees: n − 1 edges, unique paths, adding/removing an edge</li>
+        <li>Tree traversals (pre/in/post-order, DFS/BFS) and spanning trees (Prim, Kruskal)</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 3</span><span class="day-focus">Sets &amp; Functions · ~16% (≈8 Q)</span></div>
+      <div class="day-header"><span class="day-title">Day 3</span><span class="day-focus">Matrices 8% + Series 8% · both Unsatisfactory</span></div>
       <div class="day-body"><ul>
-        <li>Set notation, subsets, power set size <span class="m">2ⁿ</span>, Cartesian products</li>
-        <li>Union, intersection, difference, complement, symmetric difference, inclusion–exclusion</li>
-        <li>Functions: domain, codomain, range; one-to-one, onto, bijection; inverse and composition</li>
-        <li>Floor and ceiling; counting functions <span class="m">|B|<sup>|A|</sup></span></li>
+        <li>Matrix addition and multiplication (size rules), 2×2 determinant and inverse</li>
+        <li>Gaussian elimination and Gauss–Jordan inversion <span class="m">[A | I] → [I | A⁻¹]</span></li>
+        <li>Sequences: arithmetic, geometric, index 0 vs index 1, recurrences</li>
+        <li>Series: sum formulas, infinite geometric series</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 4</span><span class="day-focus">Graphs &amp; Trees · ~16% (≈8 Q)</span></div>
+      <div class="day-header"><span class="day-title">Day 4</span><span class="day-focus">Logic &amp; Proofs, part 1 · 22% · Approaching</span></div>
       <div class="day-body"><ul>
-        <li>Handshaking theorem; special graphs <span class="m">Kₙ, Cₙ, Wₙ, Qₙ, K<sub>m,n</sub></span> and their edge counts</li>
-        <li>Euler vs Hamilton paths and circuits (degree rules for Euler)</li>
-        <li>Trees: <span class="m">n − 1</span> edges, rooted tree vocabulary, full m-ary tree formulas</li>
-        <li>Traversals (pre/in/post-order), spanning trees, Prim vs Kruskal, Dijkstra</li>
+        <li>Propositions and truth tables; evaluating with given truth values; translating English</li>
+        <li>Conditionals: converse, inverse, contrapositive; logical equivalences</li>
+        <li>Quantifiers: free vs bound variables, negating nested quantifiers</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 5</span><span class="day-focus">Boolean Algebra · ~14% (≈7 Q)</span></div>
+      <div class="day-header"><span class="day-title">Day 5</span><span class="day-focus">Logic &amp; Proofs, part 2 + Sets &amp; Functions (16%)</span></div>
       <div class="day-body"><ul>
-        <li>Boolean identities (absorption and De Morgan are tested most)</li>
-        <li>Sum-of-products from a table; minterms</li>
-        <li>Logic gates, NAND/NOR, half adder</li>
-        <li>Karnaugh maps: Gray-code ordering, groups of 1/2/4/8, wrap-around</li>
+        <li>Rules of inference, fallacies; proof methods; induction</li>
+        <li>Working with sets; higher set operations (generalized unions and intersections, partitions)</li>
+        <li>Overview of functions; composition and applications</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 6</span><span class="day-focus">Relations (~12%) + Series (~12%)</span></div>
+      <div class="day-header"><span class="day-title">Day 6</span><span class="day-focus">Boolean Algebra · 14% · Approaching</span></div>
       <div class="day-body"><ul>
-        <li>Relations: reflexive, symmetric, antisymmetric, transitive; matrix and digraph tests</li>
-        <li>Equivalence relations and classes; partial orders and Hasse diagrams; closures</li>
-        <li>Series: arithmetic and geometric sequences, sum formulas, infinite geometric series</li>
-        <li>Recurrence relations and the characteristic equation</li>
+        <li>Boolean algebra identities and evaluating expressions</li>
+        <li>Satisfiability, gates and circuits, switching circuits</li>
+        <li>Normal forms (DNF/CNF) and functional completeness; K-maps</li>
       </ul></div>
     </div>
     <div class="day-card" onclick="toggle(this)">
-      <div class="day-header"><span class="day-title">Day 7</span><span class="day-focus">Matrices (~8%) + full mock exams</span></div>
+      <div class="day-header"><span class="day-title">Day 7</span><span class="day-focus">Full mock exams + targeted review</span></div>
       <div class="day-body"><ul>
-        <li>Matrix multiplication dimensions, transpose, 2×2 inverse, Gaussian elimination, zero-one matrices</li>
         <li>Take two full 50-question mock exams; review every wrong card</li>
-        <li>Use the attempt history “Needs attention” chips to pick what to reread</li>
+        <li>Use the “Needs attention” chips in your attempt history to choose what to reread</li>
         <li>Skim the Quick Reference page one last time</li>
       </ul>
       <div class="tip"><strong>Target:</strong> aim for 80%+ on two mock attempts in a row before the real exam. The pass mark is 65%.</div>
@@ -509,7 +507,7 @@
   <!-- ═══════════ EXAM OVERVIEW ═══════════ -->
   <section id="exam">
     <h2>Exam Overview <span class="chip">Know This First</span></h2>
-    <p class="section-intro">The topic weights below are this guide’s estimates, used to size each topic and draw a proportional mock exam. Check your course page for any official breakdown.</p>
+    <p class="section-intro">Weights come from your pre-assessment report. The mock exam draws questions in these proportions.</p>
     <div class="tbl"><table>
       <tr><th>Item</th><th>Detail</th></tr>
       <tr><td>Questions</td><td>50, all multiple choice</td></tr>
@@ -517,20 +515,30 @@
       <tr><td>Mock question bank</td><td>150 questions (3× the exam), stratified by topic weight</td></tr>
     </table></div>
     <div class="tbl"><table>
-      <tr><th>#</th><th>Competency</th><th>Weight</th><th>Exam Q</th><th>Bank Q</th></tr>
-      <tr><td>1</td><td><a href="#c1">Logic &amp; Proofs</a> — evaluate statements using proofs and deductive logic</td><td>~22%</td><td>11</td><td>33</td></tr>
-      <tr><td>2</td><td><a href="#c2">Sets &amp; Functions</a> — relationships between sets and functions</td><td>~16%</td><td>8</td><td>24</td></tr>
-      <tr><td>3</td><td><a href="#c3">Boolean Algebra</a> — minimize circuits with Boolean algebra and functions</td><td>~14%</td><td>7</td><td>21</td></tr>
-      <tr><td>4</td><td><a href="#c4">Matrix Operations</a> — perform matrix operations</td><td>~8%</td><td>4</td><td>12</td></tr>
-      <tr><td>5</td><td><a href="#c5">Finite &amp; Infinite Series</a> — analyze series</td><td>~12%</td><td>6</td><td>18</td></tr>
-      <tr><td>6</td><td><a href="#c6">Relations</a> — analyze problems using relations</td><td>~12%</td><td>6</td><td>18</td></tr>
-      <tr><td>7</td><td><a href="#c7">Graphs &amp; Trees</a> — graphs, trees, and their connections</td><td>~16%</td><td>8</td><td>24</td></tr>
+      <tr><th>#</th><th>Competency</th><th>Weight</th><th>Exam Q</th><th>Bank Q</th><th>Pre-assessment</th></tr>
+      <tr><td>1</td><td><a href="#c1">Logic &amp; Proofs</a></td><td>22%</td><td>11</td><td>33</td><td><span class="status appr">Approaching</span></td></tr>
+      <tr><td>2</td><td><a href="#c2">Sets &amp; Functions</a></td><td>16%</td><td>8</td><td>24</td><td><span class="status appr">Approaching</span></td></tr>
+      <tr><td>3</td><td><a href="#c3">Boolean Algebra</a></td><td>14%</td><td>7</td><td>21</td><td><span class="status appr">Approaching</span></td></tr>
+      <tr><td>4</td><td><a href="#c4">Matrix Operations</a></td><td>8%</td><td>4</td><td>12</td><td><span class="status unsat">Unsatisfactory</span></td></tr>
+      <tr><td>5</td><td><a href="#c5">Finite &amp; Infinite Series</a></td><td>8%</td><td>4</td><td>12</td><td><span class="status unsat">Unsatisfactory</span></td></tr>
+      <tr><td>6</td><td><a href="#c6">Relations</a></td><td>16%</td><td>8</td><td>24</td><td><span class="status unsat">Unsatisfactory</span></td></tr>
+      <tr><td>7</td><td><a href="#c7">Graphs &amp; Trees</a></td><td>16%</td><td>8</td><td>24</td><td><span class="status unsat">Unsatisfactory</span></td></tr>
+    </table></div>
+    <div class="tbl"><table>
+      <tr><th>Competency</th><th>Report subtopics → where they are in this guide</th></tr>
+      <tr><td>Logic &amp; Proofs</td><td>Propositions &amp; Truth Tables, Propositional Statements → 1.1–1.3 · Quantifiers → 1.4 · Logic of Proof → 1.5 · Foundations of Proofs → 1.6–1.7</td></tr>
+      <tr><td>Sets &amp; Functions</td><td>Working with Sets → 2.1 · Higher Set Operations → 2.2 · Overview of Functions, Composition &amp; Applications → 2.3</td></tr>
+      <tr><td>Boolean Algebra</td><td>Boolean Algebra &amp; Applications → 3.1 · Normal Forms &amp; Functional Completeness → 3.2 · Satisfiability, Gates &amp; Circuits → 3.3 · (K-maps → 3.4)</td></tr>
+      <tr><td>Matrices</td><td>Addition &amp; Multiplication → 4.1–4.2 · Gaussian Elimination &amp; Matrix Inversion → 4.3–4.4</td></tr>
+      <tr><td>Series</td><td>Overview of Sequences → 5.1 · Sequences &amp; Series → 5.2–5.4</td></tr>
+      <tr><td>Relations</td><td>Binary Relations &amp; Directed Graphs → 6.1–6.2 · Graph Powers → 6.3 · N-ary Relations → 6.4 · Order Relations → 6.5–6.6</td></tr>
+      <tr><td>Graphs &amp; Trees</td><td>Undirected Finite Graphs → 7.1 · Paths, Circuits, Cycles → 7.2 · Paths &amp; Cycles in Trees → 7.3 · Traversals &amp; Spanning Trees → 7.3–7.4</td></tr>
     </table></div>
     <div class="warn"><strong>Watch out:</strong> many questions are “compute then choose.” Wrong options are usually the result of a common slip (adding instead of multiplying, off-by-one in a sum, forgetting a negative). Work it out before you look at the choices.</div>
   </section>
   <!-- ═══════════ TOPIC 1 — LOGIC & PROOFS ═══════════ -->
   <section id="c1" data-topic="c1">
-    <h2>1 · Logic &amp; Proofs <span class="chip">Competency 1</span> <span class="marks">~22% · 11 Q</span></h2>
+    <h2>1 · Logic &amp; Proofs <span class="chip">Competency 1</span> <span class="marks">22% · 11 Q</span> <span class="status appr">Pre-assessment: Approaching</span></h2>
     <p class="section-intro">Evaluate the truth of statements using proofs and the principles of deductive logic. Covers propositions, connectives, conditionals, equivalences, quantifiers, rules of inference, proof methods, and mathematical induction.</p>
 
     <h3 id="c1-logic">1.1 Propositions and Connectives</h3>
@@ -689,7 +697,7 @@
   </section>
   <!-- ═══════════ TOPIC 2 — SETS & FUNCTIONS ═══════════ -->
   <section id="c2" data-topic="c2">
-    <h2>2 · Sets &amp; Functions <span class="chip">Competency 2</span> <span class="marks">~16% · 8 Q</span></h2>
+    <h2>2 · Sets &amp; Functions <span class="chip">Competency 2</span> <span class="marks">16% · 8 Q</span> <span class="status appr">Pre-assessment: Approaching</span></h2>
     <p class="section-intro">Analyze relationships between sets and functions. Covers set notation, subsets, power sets, Cartesian products, set operations, inclusion–exclusion, function types, inverses, composition, floor and ceiling, and countability.</p>
 
     <h3 id="c2-sets">2.1 Sets and Notation</h3>
@@ -741,6 +749,8 @@
         <li><span class="m">Ā = {5, 6}</span></li>
       </ul></div>
     </div>
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Generalized union and intersection</div><div class="def-card-text">For sets <span class="m">A₁, A₂, …, Aₙ</span>: <span class="m">⋃<sub>i=1</sub><sup>n</sup> Aᵢ = A₁ ∪ A₂ ∪ … ∪ Aₙ</span> holds every element that is in <strong>at least one</strong> Aᵢ, and <span class="m">⋂<sub>i=1</sub><sup>n</sup> Aᵢ = A₁ ∩ A₂ ∩ … ∩ Aₙ</span> holds the elements in <strong>every</strong> Aᵢ.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Three weekly shift rosters: the union is everyone who worked any week; the intersection is the people who worked all three weeks.</div></div>
+    <p>Example: <span class="m">Aᵢ = {i, i + 1, i + 2}</span> for i = 1, 2, 3 gives A₁ = {1, 2, 3}, A₂ = {2, 3, 4}, A₃ = {3, 4, 5}. Then <span class="m">⋃ Aᵢ = {1, 2, 3, 4, 5}</span> and <span class="m">⋂ Aᵢ = {3}</span>.</p>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Inclusion–exclusion (two sets)</div><div class="def-card-text"><span class="m">|A ∪ B| = |A| + |B| − |A ∩ B|</span>. Subtract the overlap because it was counted twice. For three sets: <span class="m">|A ∪ B ∪ C| = |A| + |B| + |C| − |A∩B| − |A∩C| − |B∩C| + |A∩B∩C|</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>30 staff can open, 20 can close, 8 can do both. Staff who can do at least one: 30 + 20 − 8 = 42.</div></div>
     <div class="def"><div class="def-label">Set identities (mirror the logic laws)</div>
       <p>De Morgan: <span class="m"><span class="ol">A ∪ B</span> = Ā ∩ B̄</span> and <span class="m"><span class="ol">A ∩ B</span> = Ā ∪ B̄</span> (complement of a union is the intersection of complements).<br>
@@ -793,7 +803,7 @@
   </section>
   <!-- ═══════════ TOPIC 3 — BOOLEAN ALGEBRA ═══════════ -->
   <section id="c3" data-topic="c3">
-    <h2>3 · Boolean Algebra &amp; Boolean Functions <span class="chip">Competency 3</span> <span class="marks">~14% · 7 Q</span></h2>
+    <h2>3 · Boolean Algebra &amp; Boolean Functions <span class="chip">Competency 3</span> <span class="marks">14% · 7 Q</span> <span class="status appr">Pre-assessment: Approaching</span></h2>
     <p class="section-intro">Minimize circuits using Boolean algebra and Boolean functions. Covers Boolean operations and identities, duality, sum-of-products form, functional completeness, logic gates and adders, and Karnaugh maps.</p>
 
     <h3 id="c3-alg">3.1 Boolean Operations and Identities</h3>
@@ -840,6 +850,16 @@
       </ol></div>
     </div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Functionally complete</div><div class="def-card-text">A set of operators that can express <strong>every</strong> Boolean function. <span class="m">{+, ·, ¯}</span> is functionally complete, and so are <span class="m">{·, ¯}</span> and <span class="m">{+, ¯}</span> (De Morgan lets you rebuild the missing one). A single operator, <strong>NAND</strong> (<span class="m">x ↑ y = <span class="ol">xy</span></span>) or <strong>NOR</strong> (<span class="m">x ↓ y = <span class="ol">x + y</span></span>), is functionally complete on its own. Example: <span class="m">x̄ = x ↑ x</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Chip makers can build entire processors out of only NAND gates because NAND alone can make NOT, AND, and OR.</div></div>
+
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Satisfiable / unsatisfiable</div><div class="def-card-text">A Boolean expression (or compound proposition) is <strong>satisfiable</strong> if <strong>at least one</strong> assignment of 0s and 1s makes it equal 1. It is <strong>unsatisfiable</strong> if it equals 0 for every assignment (a contradiction). To show satisfiable, give one assignment that works; to show unsatisfiable, show every row is 0, or find a factor like <span class="m">x·x̄</span> that forces 0. For a product, every factor must be 1, so solve the factors one at a time.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Scheduling rules: “Ana works Monday,” “Ben works Monday,” “Ana and Ben never work together.” No schedule meets all three, so the rule set is unsatisfiable.</div></div>
+    <div class="practice-card" onclick="toggle(this)">
+      <div class="pc-header"><span class="pc-name">Worked example: find a satisfying assignment for (x + y)(x̄ + z)z̄</span><span class="pc-tag">Satisfiability</span></div>
+      <div class="pc-body" onclick="event.stopPropagation()"><ol class="steps">
+        <li>z̄ must be 1, so <strong>z = 0</strong>.</li>
+        <li>Then <span class="m">x̄ + z = x̄</span> must be 1, so <strong>x = 0</strong>.</li>
+        <li>Then <span class="m">x + y = y</span> must be 1, so <strong>y = 1</strong>. (x, y, z) = (0, 1, 0) satisfies it, and it is the only assignment that does.</li>
+      </ol></div>
+    </div>
 
     <h3 id="c3-gates">3.3 Logic Gates and Circuits</h3>
     <div class="tbl"><table>
@@ -911,7 +931,7 @@
   </section>
   <!-- ═══════════ TOPIC 4 — MATRICES ═══════════ -->
   <section id="c4" data-topic="c4">
-    <h2>4 · Matrix Operations <span class="chip">Competency 4</span> <span class="marks">~8% · 4 Q</span></h2>
+    <h2>4 · Matrix Operations <span class="chip">Competency 4</span> <span class="marks">8% · 4 Q</span> <span class="status unsat">Pre-assessment: Unsatisfactory</span></h2>
     <p class="section-intro">Perform matrix operations. Covers matrix size and notation, addition, scalar multiplication, matrix multiplication, identity and transpose, 2×2 determinants and inverses, Gaussian elimination, and zero-one (Boolean) matrices.</p>
 
     <h3 id="c4-basics">4.1 Matrix Basics</h3>
@@ -963,6 +983,16 @@
       </ol></div>
     </div>
 
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Matrix inversion by Gauss–Jordan elimination</div><div class="def-card-text">To find <span class="m">A⁻¹</span> for any square matrix, write the augmented matrix <span class="m">[A | I]</span> and use row operations until the <strong>left side becomes I</strong>. The <strong>right side is then A⁻¹</strong>: <span class="m">[A | I] → [I | A⁻¹]</span>. If the left side can’t be turned into I (a row of zeros appears), A has no inverse.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Like solving several systems at once: each column of I is a right-hand side, and the answers line up as the columns of A⁻¹.</div></div>
+    <div class="practice-card" onclick="toggle(this)">
+      <div class="pc-header"><span class="pc-name">Worked example: inverse of [2 1; 1 1] by Gauss–Jordan</span><span class="pc-tag">Inversion</span></div>
+      <div class="pc-body" onclick="event.stopPropagation()"><ol class="steps">
+        <li>Start: <span class="mx"><table><tr><td>2</td><td>1</td><td>|</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>|</td><td>0</td><td>1</td></tr></table></span>. Swap rows to get a leading 1: <span class="mx"><table><tr><td>1</td><td>1</td><td>|</td><td>0</td><td>1</td></tr><tr><td>2</td><td>1</td><td>|</td><td>1</td><td>0</td></tr></table></span></li>
+        <li><span class="m">−2R₁ + R₂ → R₂</span>: <span class="mx"><table><tr><td>1</td><td>1</td><td>|</td><td>0</td><td>1</td></tr><tr><td>0</td><td>−1</td><td>|</td><td>1</td><td>−2</td></tr></table></span>. Then <span class="m">−1·R₂ → R₂</span>: <span class="mx"><table><tr><td>1</td><td>1</td><td>|</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>|</td><td>−1</td><td>2</td></tr></table></span></li>
+        <li><span class="m">−R₂ + R₁ → R₁</span>: <span class="mx"><table><tr><td>1</td><td>0</td><td>|</td><td>1</td><td>−1</td></tr><tr><td>0</td><td>1</td><td>|</td><td>−1</td><td>2</td></tr></table></span>. So A⁻¹ = <span class="mx"><table><tr><td>1</td><td>−1</td></tr><tr><td>−1</td><td>2</td></tr></table></span>. (Check with the 2×2 formula: det = 1, swap/negate gives the same.)</li>
+      </ol></div>
+    </div>
+
     <h3 id="c4-bool">4.5 Zero-One (Boolean) Matrices</h3>
     <p>A <strong>zero-one matrix</strong> has only 0 and 1 entries. They are used to represent relations and graphs (Topics 6 and 7). Boolean operations: <span class="m">1 ∨ 1 = 1</span>, <span class="m">1 ∧ 0 = 0</span>, and so on.</p>
     <div class="tbl"><table>
@@ -999,7 +1029,7 @@
   </section>
   <!-- ═══════════ TOPIC 5 — SERIES ═══════════ -->
   <section id="c5" data-topic="c5">
-    <h2>5 · Finite &amp; Infinite Series <span class="chip">Competency 5</span> <span class="marks">~12% · 6 Q</span></h2>
+    <h2>5 · Finite &amp; Infinite Series <span class="chip">Competency 5</span> <span class="marks">8% · 4 Q</span> <span class="status unsat">Pre-assessment: Unsatisfactory</span></h2>
     <p class="section-intro">Analyze finite and infinite series. Covers sequences, arithmetic and geometric progressions, summation notation, closed-form sum formulas, infinite geometric series and convergence, and recurrence relations.</p>
 
     <h3 id="c5-seq">5.1 Sequences</h3>
@@ -1008,6 +1038,7 @@
     <div class="tip"><strong>Watch the starting index.</strong> If a sequence starts at index 0 (<span class="m">a₀, a₁, a₂, …</span>), the formulas shift: arithmetic <span class="m">aₙ = a₀ + n·d</span>; geometric <span class="m">aₙ = a₀·rⁿ</span>. Example: a₀ = −20, d = 6 gives <span class="m">a₄ = −20 + 4·6 = 4</span>. With index 1 you use <span class="m">(n − 1)</span> instead of n.</div>
     <p><strong>Evaluating a formula:</strong> plug the index into the closed formula. For <span class="m">aₖ = 6/(k + 2)</span>, <span class="m">a₄ = 6/6 = 1</span> and <span class="m">a₁₀ = 6/12 = 1/2</span>.</p>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Geometric sequence (progression)</div><div class="def-card-text">Each term multiplies by the same <strong>common ratio r</strong>: <span class="m">aₙ = a₁ · rⁿ⁻¹</span>. Example: 3, 6, 12, 24, … has a₁ = 3, r = 2, so <span class="m">a₆ = 3 · 2⁵ = 96</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A $1,000 balance growing 5% per year: 1000, 1050, 1102.50, … is geometric with r = 1.05.</div></div>
+    <p><strong>Finding a formula from terms:</strong> check the differences between terms (constant → arithmetic) and the ratios (constant → geometric). Common patterns: <span class="m">1, 4, 9, 16, …</span> is <span class="m">n²</span>; <span class="m">1, 2, 4, 8, …</span> is <span class="m">2ⁿ⁻¹</span>; <span class="m">1, −1, 1, −1, …</span> is <span class="m">(−1)ⁿ⁺¹</span>; <span class="m">1, 2, 6, 24, 120, …</span> is <span class="m">n!</span> (n factorial: <span class="m">n! = 1·2·…·n</span>). A sequence is <strong>increasing</strong> if each term is larger than the one before, and <strong>decreasing</strong> if each is smaller.</p>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Recurrence relation</div><div class="def-card-text">Defines each term using <strong>earlier terms</strong>, together with <strong>initial conditions</strong> that give the first term(s). A <strong>solution</strong> is a closed formula that satisfies the recurrence and initial conditions. Arithmetic: <span class="m">aₙ = aₙ₋₁ + d</span>. Geometric: <span class="m">aₙ = r · aₙ₋₁</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Compound interest: <span class="m">Pₙ = 1.05 · Pₙ₋₁</span> with P₀ = 1000. Solving gives the closed formula <span class="m">Pₙ = 1000 · (1.05)ⁿ</span>.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Fibonacci sequence</div><div class="def-card-text">Defined by <span class="m">f₀ = 0</span>, <span class="m">f₁ = 1</span>, and <span class="m">fₙ = fₙ₋₁ + fₙ₋₂</span> for n ≥ 2: <span class="m">0, 1, 1, 2, 3, 5, 8, 13, 21, 34, …</span></div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Each new term is the sum of the previous two, like a team where each month’s new hires equal the previous two months’ hires combined.</div></div>
 
@@ -1065,8 +1096,8 @@
   </section>
   <!-- ═══════════ TOPIC 6 — RELATIONS ═══════════ -->
   <section id="c6" data-topic="c6">
-    <h2>6 · Relations <span class="chip">Competency 6</span> <span class="marks">~12% · 6 Q</span></h2>
-    <p class="section-intro">Analyze mathematical problems using relations. Covers binary relations, the four key properties, composition and inverse, matrix and digraph representations, closures, equivalence relations and classes, and partial orders with Hasse diagrams.</p>
+    <h2>6 · Relations <span class="chip">Competency 6</span> <span class="marks">16% · 8 Q</span> <span class="status unsat">Pre-assessment: Unsatisfactory</span></h2>
+    <p class="section-intro">Analyze mathematical problems using relations. Covers binary relations and their digraphs, the four key properties, composition and inverse, matrix representations, closures, graph powers, n-ary relations and databases, equivalence relations and classes, and order relations with Hasse diagrams.</p>
 
     <h3 id="c6-props">6.1 Relations and Their Properties</h3>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Binary relation</div><div class="def-card-text">A binary relation R <strong>from A to B</strong> is a subset of <span class="m">A × B</span>. If <span class="m">(a, b) ∈ R</span> we write <span class="m">a R b</span>. A relation <strong>on a set A</strong> is a relation from A to A. On a set with n elements there are <span class="m">2<sup>n²</sup></span> possible relations (any subset of the n² ordered pairs).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>“Employee e is trained on register r” relates employees to registers: (Ana, Reg 2) is in the relation if Ana is trained on register 2.</div></div>
@@ -1084,7 +1115,6 @@
     </div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Inverse and composition</div><div class="def-card-text">The <strong>inverse</strong> <span class="m">R⁻¹ = {(b, a) | (a, b) ∈ R}</span> reverses every pair. The <strong>composite</strong> <span class="m">S ∘ R</span> (R from A to B, S from B to C) contains <span class="m">(a, c)</span> whenever there is a b with <span class="m">(a, b) ∈ R</span> and <span class="m">(b, c) ∈ S</span>. Apply R first, then S.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>R = “customer placed order,” S = “order shipped from warehouse.” S ∘ R links each customer to the warehouses that shipped their orders.</div></div>
     <p>Example: R = {(1, 2), (2, 3)} and S = {(2, 4), (3, 5)} gives <span class="m">S ∘ R = {(1, 4), (2, 5)}</span>. Relations can also be combined with ∪, ∩, and − because they are sets.</p>
-    <p><strong>n-ary relations:</strong> a subset of <span class="m">A₁ × A₂ × … × Aₙ</span> (n-tuples). Relational databases store tables as n-ary relations; each row is an n-tuple.</p>
 
     <h3 id="c6-rep">6.2 Representing Relations: Matrices and Digraphs</h3>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Zero-one matrix of a relation</div><div class="def-card-text">For R on <span class="m">{a₁, …, aₙ}</span>, the matrix <span class="m">M_R</span> has <span class="m">mᵢⱼ = 1</span> if <span class="m">(aᵢ, aⱼ) ∈ R</span>, and 0 otherwise.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A grid of employees × employees with a 1 wherever two people can cover each other’s shift.</div></div>
@@ -1103,7 +1133,31 @@
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Closure of a relation</div><div class="def-card-text">The <strong>smallest</strong> relation containing R that has a given property. <strong>Reflexive closure:</strong> <span class="m">R ∪ {(a, a) | a ∈ A}</span> (add all loops). <strong>Symmetric closure:</strong> <span class="m">R ∪ R⁻¹</span> (add every reverse pair). <strong>Transitive closure:</strong> add pairs (a, c) whenever there is a path from a to c in the digraph; it can be computed with <strong>Warshall’s algorithm</strong>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Transitive closure of “has a direct flight to” is “can reach by some sequence of flights.”</div></div>
     <p>Example on {1, 2, 3}: R = {(1, 2), (2, 3)}. Reflexive closure adds (1,1), (2,2), (3,3). Symmetric closure adds (2,1), (3,2). Transitive closure adds (1,3).</p>
 
-    <h3 id="c6-equiv">6.3 Equivalence Relations</h3>
+    <h3 id="c6-powers">6.3 Graph Powers (Powers of a Relation)</h3>
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Power of a relation  Rⁿ</div><div class="def-card-text"><span class="m">R¹ = R</span> and <span class="m">Rⁿ⁺¹ = Rⁿ ∘ R</span>. A pair <span class="m">(a, b)</span> is in <span class="m">Rⁿ</span> exactly when there is a <strong>path of length n</strong> from a to b in the digraph of R (n arrows in a row). Its matrix is the Boolean power <span class="m">M_R ⊙ M_R ⊙ … ⊙ M_R</span> (n factors).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>R = “has a direct flight to.” R² = “can get there with exactly one connection” (two flights).</div></div>
+    <div class="practice-card" onclick="toggle(this)">
+      <div class="pc-header"><span class="pc-name">Worked example: R = {(1,2), (2,3), (3,3)} on {1, 2, 3}</span><span class="pc-tag">Graph powers</span></div>
+      <div class="pc-body" onclick="event.stopPropagation()"><ol class="steps">
+        <li>R² pairs come from two arrows in a row: 1→2→3 gives (1,3); 2→3→3 gives (2,3); 3→3→3 gives (3,3). <span class="m">R² = {(1,3), (2,3), (3,3)}</span>.</li>
+        <li>R³: 1→2→3→3 gives (1,3); 2→3→3→3 gives (2,3); 3 gives (3,3). <span class="m">R³ = {(1,3), (2,3), (3,3)}</span>.</li>
+        <li>Connectivity relation <span class="m">R* = R ∪ R² ∪ R³ ∪ … = {(1,2), (2,3), (3,3), (1,3)}</span>, which is the transitive closure of R.</li>
+      </ol></div>
+    </div>
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Connectivity relation  R*</div><div class="def-card-text"><span class="m">R* = R ∪ R² ∪ R³ ∪ …</span>: (a, b) ∈ R* when there is a path of <strong>any</strong> positive length from a to b. R* is the <strong>transitive closure</strong> of R. On a set with n elements, paths of length up to n are enough: <span class="m">R* = R ∪ R² ∪ … ∪ Rⁿ</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>“Can reach by some chain of messages” in a team’s forwarding network.</div></div>
+    <div class="tip"><strong>Counting walks with ordinary matrix powers:</strong> for a graph’s adjacency matrix A, the (i, j) entry of the ordinary product <span class="m">Aⁿ</span> is the <strong>number of walks of length n</strong> from vertex i to vertex j. The Boolean power only says <em>whether</em> such a path exists (1 or 0); the ordinary power counts <em>how many</em>.</div>
+
+    <h3 id="c6-nary">6.4 N-ary Relations and Databases</h3>
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">n-ary relation</div><div class="def-card-text">A subset of <span class="m">A₁ × A₂ × … × Aₙ</span>: a set of <strong>n-tuples</strong>. The sets <span class="m">A₁, …, Aₙ</span> are its <strong>domains</strong> and n is its <strong>degree</strong>. A relational database table is an n-ary relation: each <strong>record</strong> (row) is an n-tuple and each <strong>field</strong> (column) is one domain.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A table Employees(ID, Name, Store, Role) has degree 4; (1042, Ana, NYC-5, Keyholder) is one 4-tuple.</div></div>
+    <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Primary key</div><div class="def-card-text">A domain (field) is a <strong>primary key</strong> when its value <strong>uniquely identifies</strong> each n-tuple: no two records share it. A combination of fields that together identify each record is a <strong>composite key</strong>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Employee ID is a primary key; Store is not, because many employees share a store.</div></div>
+    <div class="tbl"><table>
+      <tr><th>Operation</th><th>What it does</th><th>Result</th></tr>
+      <tr><td><strong>Selection</strong> <span class="m">s_C</span></td><td>keeps the <strong>rows (n-tuples)</strong> that meet condition C</td><td>same degree, fewer rows</td></tr>
+      <tr><td><strong>Projection</strong> <span class="m">P_{i₁,…,iₘ}</span></td><td>keeps only the chosen <strong>columns (fields)</strong>, in that order</td><td>degree m (fewer columns); duplicate rows merge</td></tr>
+      <tr><td><strong>Join</strong> <span class="m">J_p</span></td><td>combines two tables whose last p fields of the first match the first p fields of the second</td><td>one table of degree m + n − p</td></tr>
+    </table></div>
+    <p>Example: projecting Employees(ID, Name, Store, Role) onto (Store, Role) gives a relation of degree 2; selecting Role = Keyholder keeps all four fields but only keyholder rows. Joining a degree-3 table with a degree-4 table on 2 shared fields gives degree 3 + 4 − 2 = 5.</p>
+
+    <h3 id="c6-equiv">6.5 Equivalence Relations</h3>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Equivalence relation</div><div class="def-card-text">A relation that is <strong>reflexive, symmetric, and transitive</strong>. Related elements are called <strong>equivalent</strong> (<span class="m">a ~ b</span>).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>“Works in the same department as” is reflexive, symmetric, and transitive, so it is an equivalence relation.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Equivalence class  [a]</div><div class="def-card-text">The set of <strong>all elements related to a</strong>: <span class="m">[a] = {x | x R a}</span>. Any element of the class can serve as its representative. Two classes are either <strong>identical or disjoint</strong>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>[Ana] under “same department” = everyone in Ana’s department.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Partition</div><div class="def-card-text">A collection of <strong>nonempty, pairwise disjoint</strong> subsets whose union is the whole set. The equivalence classes of an equivalence relation always form a partition, and every partition defines an equivalence relation (“in the same block”).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Splitting all staff into departments: everyone is in exactly one department, and no department is empty.</div></div>
@@ -1112,7 +1166,7 @@
     <p><strong>Reading the partition from a digraph:</strong> in the digraph of an equivalence relation (loops on every vertex), each equivalence class is a group of vertices joined to each other by arrows. Write each group as one block. Example: vertices W, X, Y, Z with loops on all four, arrows W ⇄ Z and X ⇄ Y. Partition: <span class="m">{{W, Z}, {X, Y}}</span>. A list of ordered pairs is the relation itself, not the partition.</p>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Equivalence on tuples (componentwise)</div><div class="def-card-text">If ~ is an equivalence relation on a set with k classes, define <span class="m">(a₁, …, aₙ) ~ (b₁, …, bₙ)</span> when <span class="m">aᵢ ~ bᵢ</span> in <strong>every</strong> position. This is again an equivalence relation, and each class is fixed by choosing one class per position, so there are <span class="m">kⁿ</span> classes.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Same-remainder-mod-3 on pairs of integers: each coordinate has 3 classes, so pairs fall into 3² = 9 classes, such as “(remainder 1, remainder 2).”</div></div>
 
-    <h3 id="c6-po">6.4 Partial Orders</h3>
+    <h3 id="c6-po">6.6 Partial Orders (Order Relations)</h3>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Partial order / poset</div><div class="def-card-text">A relation that is <strong>reflexive, antisymmetric, and transitive</strong>. A set with a partial order is a <strong>partially ordered set (poset)</strong>, written <span class="m">(S, ≼)</span>. Examples: <span class="m">(ℤ, ≤)</span>, divisibility <span class="m">(ℤ⁺, |)</span>, and subsets <span class="m">(P(S), ⊆)</span>.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Task prerequisites: “task a must be done before (or is) task b.”</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Comparable / total order</div><div class="def-card-text">a and b are <strong>comparable</strong> if <span class="m">a ≼ b</span> or <span class="m">b ≼ a</span>. If <strong>every</strong> pair is comparable, the poset is a <strong>total (linear) order</strong>, also called a chain. <span class="m">(ℤ, ≤)</span> is total; <span class="m">(ℤ⁺, |)</span> is not, because 2 and 3 are incomparable (neither divides the other).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Ranking stores by sales is a total order. Ranking projects by prerequisites is only partial: two unrelated projects can’t be compared.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Hasse diagram</div><div class="def-card-text">A simplified digraph of a finite poset: <strong>remove all loops</strong>, <strong>remove edges implied by transitivity</strong>, and draw every edge pointing <strong>upward</strong> (so arrowheads are dropped).</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>An org chart is a Hasse diagram: you draw manager → assistant manager → keyholder, but you don’t also draw manager → keyholder because it’s implied.</div></div>
@@ -1161,11 +1215,14 @@
     <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>~ on ℕ means “same remainder when divided by 2.” How many equivalence classes does the componentwise relation on ℕ² have?</span></div><div class="a"><span class="m">2² = 4</span>: (even, even), (even, odd), (odd, even), (odd, odd).</div></div>
     <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>In a Hasse diagram, A is joined up to E and E is joined up to I. Is A ≺ E ≺ I valid?</span></div><div class="a">Yes. There is an upward path from A to E and from E to I.</div></div>
     <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>An equivalence relation’s digraph has loops on P, Q, R, S, plus arrows P ⇄ R and Q ⇄ S. What is the partition?</span></div><div class="a"><span class="m">{{P, R}, {Q, S}}</span>.</div></div>
+    <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>What does it mean for (a, b) to be in R³?</span></div><div class="a">There is a <strong>path of length 3</strong> (three arrows in a row) from a to b in the digraph of R.</div></div>
+    <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>What is the degree of a database table with fields (ID, Name, Major, GPA)?</span></div><div class="a"><strong>4</strong>: one domain per field, so each record is a 4-tuple.</div></div>
+    <div class="qa"><div class="q" onclick="toggle(this.parentElement)"><span>Which operation keeps only certain columns of a table: selection or projection?</span></div><div class="a"><strong>Projection.</strong> Selection keeps certain rows.</div></div>
     <button class="complete-btn" data-c="c6">Mark section complete</button>
   </section>
   <!-- ═══════════ TOPIC 7 — GRAPHS & TREES ═══════════ -->
   <section id="c7" data-topic="c7">
-    <h2>7 · Graphs &amp; Trees <span class="chip">Competency 7</span> <span class="marks">~16% · 8 Q</span></h2>
+    <h2>7 · Graphs &amp; Trees <span class="chip">Competency 7</span> <span class="marks">16% · 8 Q</span> <span class="status unsat">Pre-assessment: Unsatisfactory</span></h2>
     <p class="section-intro">Analyze graphs, trees, and the associated data point connections. Covers graph terminology, degree and the handshaking theorem, special graphs, representations and isomorphism, connectivity, Euler and Hamilton paths, shortest paths, planarity, coloring, trees, traversals, and spanning trees.</p>
 
     <h3 id="c7-basics">7.1 Graph Basics</h3>
@@ -1249,6 +1306,8 @@
 
     <h3 id="c7-trees">7.3 Trees</h3>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Tree</div><div class="def-card-text">A <strong>connected undirected graph with no simple circuits</strong>. Key facts: a tree with n vertices has exactly <strong><span class="m">n − 1</span> edges</strong>, and there is a <strong>unique simple path</strong> between any two vertices. A graph with no simple circuits (possibly disconnected) is a <strong>forest</strong>; each component is a tree.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A company’s reporting chart with no one reporting to two bosses forms a tree.</div></div>
+    <div class="def"><div class="def-label">Paths and cycles in trees</div>
+      <p>A tree has <strong>no cycles</strong>, and between any two vertices there is <strong>exactly one simple path</strong>. So: <strong>adding any one new edge</strong> between two existing vertices creates <strong>exactly one cycle</strong> (the old path plus the new edge), and <strong>removing any edge</strong> disconnects the tree into two pieces (every edge of a tree is a cut edge). A connected graph with n vertices and exactly n − 1 edges is a tree. The length of the path between two vertices is its number of edges; in a rooted tree, the path from the root to a vertex has length equal to that vertex’s level.</p></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Rooted tree terminology</div><div class="def-card-text">A <strong>rooted tree</strong> has one vertex chosen as the <strong>root</strong>, with edges directed away from it. If u → v, u is the <strong>parent</strong> of v and v is a <strong>child</strong> of u; children of the same parent are <strong>siblings</strong>. <strong>Ancestors</strong> are vertices on the path up to the root; <strong>descendants</strong> are vertices below. A <strong>leaf</strong> has no children; an <strong>internal vertex</strong> has at least one. The <strong>level</strong> of a vertex is the length of its path from the root (root = level 0); the <strong>height</strong> is the maximum level.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A folder system: the drive is the root, folders are internal vertices, and files are leaves.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">m-ary tree</div><div class="def-card-text">Every internal vertex has <strong>at most m</strong> children (binary tree: m = 2). It is a <strong>full</strong> m-ary tree if every internal vertex has <strong>exactly m</strong> children. A full m-ary tree with <strong>i internal vertices</strong> has <span class="m">n = m·i + 1</span> vertices and <span class="m">l = (m − 1)i + 1</span> leaves. An m-ary tree of height h has at most <span class="m">mʰ</span> leaves.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>A single-elimination tournament with 2 teams per game is a full binary tree: each game (internal vertex) has 2 children; with 64 teams (leaves) there are 63 games.</div></div>
     <div class="def-card"><div class="def-card-head"><div><div class="def-card-term">Binary search tree (BST)</div><div class="def-card-text">A binary tree where each vertex has a key, and for every vertex, keys in its <strong>left subtree are smaller</strong> and keys in its <strong>right subtree are larger</strong>. Searching compares with the current key and goes left or right, so search time depends on the tree’s height.</div></div><button class="def-card-btn" onclick="toggleEx(this)">Example</button></div><div class="def-card-example"><div class="ex-label">Real-world example</div>Looking up a SKU: compare with the middle value, then go left (smaller) or right (larger), halving the search each step.</div></div>
@@ -1363,7 +1422,7 @@ function Q(t, q, o, e, src) {
 }
 // K = a question from the course's own practice exam (figures rewritten as text)
 function K(t, q, o, e) { Q(t, q, o, e, 'course'); }
-const BANK_V = 2;   // bump when questions are swapped, so old attempt reviews don't show the wrong text
+const BANK_V = 3;   // bump when questions are swapped, so old attempt reviews don't show the wrong text
 
 // ── TOPIC 1: LOGIC & PROOFS (33) ──
 Q('c1', "Which of the following is a proposition?",
@@ -1475,9 +1534,9 @@ Q('c2', "If A = {1, 2, 3} and B = {a, b}, what is |A × B|?",
 K("c2", "A = {a, b, c}, B = {2, 4, 6}, C = {x, y}. Which claim is true?",
   ["(x, 2, c) ∈ C × B × A", "(4, a, x) ∈ A × B × C", "(a, b, 4) ∈ A × B × B", "(c, 6, x) ∈ A × A × C"],
   "Each entry must come from the matching set in order: x ∈ C, 2 ∈ B, c ∈ A. In the others an entry is from the wrong set (4 ∉ A, b ∉ B, 6 ∉ A).");
-Q('c2', "A = {1, 2, 3, 4, 5} and B = {4, 5, 6, 7}. What is A ∩ B?",
-  ["{4, 5}", "{1, 2, 3, 4, 5, 6, 7}", "{1, 2, 3}", "{6, 7}"],
-  "The intersection contains elements in both sets: 4 and 5.");
+Q("c2", "Let Aᵢ = {i, i + 1, i + 2} for i = 1, 2, 3. What is the intersection A₁ ∩ A₂ ∩ A₃?",
+  ["{3}", "{1, 2, 3, 4, 5}", "{1, 2, 3}", "∅"],
+  "A₁ = {1,2,3}, A₂ = {2,3,4}, A₃ = {3,4,5}. Only 3 is in all three. {1,2,3,4,5} is the union.");
 Q('c2', "A = {1, 2, 3, 4, 5} and B = {4, 5, 6, 7}. What is A − B?",
   ["{1, 2, 3}", "{6, 7}", "{4, 5}", "{1, 2, 3, 6, 7}"],
   "A − B contains elements in A but not in B. {6, 7} is B − A.");
@@ -1552,18 +1611,18 @@ Q('c3', "Simplify x + xy.",
 Q('c3', "By De Morgan’s law, the complement of xy equals:",
   ["x̄ + ȳ", "x̄ · ȳ", "x + y", "xȳ"],
   "The complement of a product is the sum of the complements. (x̄ · ȳ is the complement of x + y.)");
-Q('c3', "What is the dual of the identity x + 0 = x?",
-  ["x · 1 = x", "x + 1 = 1", "x · 0 = 0", "x̄ + 1 = x̄"],
-  "To form the dual, swap + with · and 0 with 1.");
+Q("c3", "Which Boolean expression is unsatisfiable?",
+  ["x · x̄ · y", "x + ȳ", "xȳ + x̄y", "(x + y)(x̄ + ȳ)"],
+  "x · x̄ = 0 for every x, so x · x̄ · y is 0 for every assignment. The others equal 1 for some input, e.g. (x, y) = (1, 0).");
 K("c3", "Let x = 0, y = 1, z = 1. Which Boolean expression has the same value as x̄y(yz + x̄) + ȳ?",
   ["yz", "xy", "xz̄", "ȳz"],
   "x̄y(yz + x̄) + ȳ = 1·1·(1 + 1) + 0 = 1. Only yz = 1·1 = 1; xy = 0, xz̄ = 0, ȳz = 0.");
 K("c3", "Which expression is the Boolean equivalent of the CNF expression (x + y)(x + ȳ)?",
   ["x", "y", "0", "1"],
   "Distributive law: (x + y)(x + ȳ) = x + yȳ = x + 0 = x.");
-Q('c3', "How many different Boolean functions of degree 3 are there?",
-  ["256", "8", "64", "512"],
-  "There are 2^(2ⁿ) Boolean functions of degree n: 2⁸ = 256.");
+Q("c3", "Which assignment (x, y, z) satisfies (x + y)(x̄ + z)ȳ?",
+  ["(1, 0, 1)", "(0, 1, 1)", "(1, 1, 1)", "(0, 0, 0)"],
+  "ȳ = 1 forces y = 0. Then x + y = x must be 1, so x = 1. Then x̄ + z = z must be 1, so z = 1.");
 Q('c3', "What is the minterm for the input (x, y, z) = (1, 0, 0)?",
   ["xȳz̄", "x̄yz", "x + ȳ + z̄", "xyz"],
   "A minterm uses the variable where the input is 1 and its complement where it is 0, as a product.");
@@ -1613,9 +1672,9 @@ Q('c4', "A and B are both 3 × 2 matrices. Which operation is defined?",
 K("c4", "A = [1 2; 2 −1], B = [1 −1 2; 1 2 3] (2 × 3), C = [1; −1] (2 × 1). Which statement is true?",
   ["AB = [3 3 8; 1 −4 1]", "AC = [2; 4]", "A ÷ C = [1 −2; 2 1]", "AB = [3 1; 3 −4; 8 1]"],
   "AB row 1: (1+2, −1+4, 2+6) = (3, 3, 8); row 2: (2−1, −2−2, 4−3) = (1, −4, 1). AC = [1−2; 2+1] = [−1; 3], and matrix division is not defined. AB is 2 × 3, not 3 × 2.");
-Q('c4', "What is 2A for A = [1 −1; 0 3]?",
-  ["[2 −2; 0 6]", "[3 1; 2 5]", "[2 −1; 0 3]", "[2 −2; 0 3]"],
-  "Scalar multiplication multiplies every entry by 2.");
+Q("c4", "To find A⁻¹ by Gauss–Jordan elimination, you row-reduce which matrix, and where does A⁻¹ appear?",
+  ["[A | I]; when the left side becomes I, the right side is A⁻¹", "[I | A]; when the right side becomes I, the left side is A⁻¹", "[A | 0]; the last column becomes A⁻¹", "[A | A]; the right side becomes A⁻¹ when the left becomes 0"],
+  "Gauss–Jordan inversion: [A | I] → [I | A⁻¹].");
 Q('c4', "What is the transpose of [1 2 3; 4 5 6]?",
   ["[1 4; 2 5; 3 6]", "[3 2 1; 6 5 4]", "[4 5 6; 1 2 3]", "[6 5 4; 3 2 1]"],
   "The transpose swaps rows and columns: row 1 becomes column 1. A 2 × 3 matrix becomes 3 × 2.");
@@ -1641,13 +1700,10 @@ Q('c4', "What is the join [1 0; 0 1] ∨ [0 1; 0 1]?",
   ["[1 1; 0 1]", "[0 0; 0 1]", "[1 1; 0 2]", "[0 1; 0 1]"],
   "The join is entrywise OR. [0 0; 0 1] would be the meet (entrywise AND).");
 
-// ── TOPIC 5: SERIES (18) ──
+// ── TOPIC 5: SERIES (12) ──
 Q('c5', "An arithmetic sequence has a₁ = 7 and common difference d = 4. What is a₁₅?",
   ["63", "67", "60", "11"],
   "aₙ = a₁ + (n − 1)d = 7 + 14·4 = 63.");
-Q('c5', "What is the 7th term of the geometric sequence 5, 10, 20, …?",
-  ["320", "640", "35", "160"],
-  "aₙ = a₁rⁿ⁻¹ = 5 · 2⁶ = 320.");
 Q('c5', "A sequence is defined by aₙ = aₙ₋₁ + 5 with a₁ = 2. Which closed formula solves it?",
   ["aₙ = 5n − 3", "aₙ = 5n + 2", "aₙ = 2 · 5ⁿ⁻¹", "aₙ = 2n + 5"],
   "This is arithmetic with a₁ = 2, d = 5: aₙ = 2 + 5(n − 1) = 5n − 3. Check a₂ = 7 = 2 + 5.");
@@ -1657,21 +1713,12 @@ K("c5", "{Sₙ} is an arithmetic sequence with initial index 0. If S₀ = −54 
 K("c5", "Given the sequence aₖ = 4/(k + 1), what is a₇?",
   ["1/2", "2/3", "3/7", "7/11"],
   "Plug in k = 7: a₇ = 4/(7 + 1) = 4/8 = 1/2.");
-Q('c5', "How many terms are in the sum Σ from k = 0 to 12 of aₖ?",
-  ["13", "12", "11", "14"],
-  "Number of terms = upper − lower + 1 = 12 − 0 + 1 = 13.");
 Q('c5', "What is 1 + 2 + 3 + … + 50?",
   ["1275", "2550", "1250", "1225"],
   "n(n + 1)/2 = 50·51/2 = 1275.");
-Q('c5', "Evaluate Σ from k = 1 to 6 of k².",
-  ["91", "21", "441", "126"],
-  "n(n + 1)(2n + 1)/6 = 6·7·13/6 = 91. (21 is Σk and 441 is Σk³.)");
 K("c5", "What is the sum of the sequence 3, 7, 11, 15, …, 35, 39, 43?",
   ["253", "300", "210", "230"],
   "d = 4, number of terms = (43 − 3)/4 + 1 = 11. Sum = n(a₁ + aₙ)/2 = 11·46/2 = 253.");
-Q('c5', "What is 1 + 3 + 9 + … + 3⁵?",
-  ["364", "243", "728", "121"],
-  "Geometric with a₁ = 1, r = 3, 6 terms: (3⁶ − 1)/(3 − 1) = 728/2 = 364.");
 K("c5", "What is the sum of the infinite series Σ from k = 0 to ∞ of 3(1/5)ᵏ?",
   ["15/4", "5/2", "15/2", "∞"],
   "First term (k = 0) is 3 and r = 1/5, with |r| < 1: sum = 3/(1 − 1/5) = 3/(4/5) = 15/4.");
@@ -1684,19 +1731,13 @@ Q('c5', "Which infinite geometric series diverges?",
 Q('c5', "Which statement about the harmonic series 1 + 1/2 + 1/3 + … is true?",
   ["It diverges, even though its terms approach 0", "It converges to 1", "It converges to 2", "It converges because its terms approach 0"],
   "The harmonic series diverges. Terms approaching 0 is necessary for convergence but not enough.");
-Q('c5', "Write the repeating decimal 0.777… as a fraction.",
-  ["7/9", "7/10", "77/100", "7/99"],
-  "0.777… = 7/10 + 7/100 + … is geometric with a₁ = 7/10, r = 1/10: (7/10)/(9/10) = 7/9.");
 Q('c5', "With f₀ = 0, f₁ = 1, and fₙ = fₙ₋₁ + fₙ₋₂, what is f₉?",
   ["34", "21", "55", "13"],
   "0, 1, 1, 2, 3, 5, 8, 13, 21, 34 → f₉ = 34 (f₀ is the first term).");
 Q('c5', "What are the roots of the characteristic equation of aₙ = 3aₙ₋₁ + 4aₙ₋₂?",
   ["4 and −1", "−4 and 1", "3 and 4", "2 (repeated)"],
   "The characteristic equation is r² − 3r − 4 = 0 = (r − 4)(r + 1), so the roots are 4 and −1 and aₙ = α₁4ⁿ + α₂(−1)ⁿ.");
-Q('c5', "What does the telescoping series Σ from k = 1 to ∞ of (1/k − 1/(k + 1)) converge to?",
-  ["1", "It diverges", "0", "1/2"],
-  "The partial sum is 1 − 1/(n + 1), which approaches 1.");
-// ── TOPIC 6: RELATIONS (18) ──
+// ── TOPIC 6: RELATIONS (24) ──
 Q('c6', "A relation is an equivalence relation when it is:",
   ["reflexive, symmetric, and transitive", "reflexive, antisymmetric, and transitive", "symmetric, antisymmetric, and transitive", "reflexive and symmetric only"],
   "Equivalence relation = reflexive + symmetric + transitive. Reflexive + antisymmetric + transitive is a partial order.");
@@ -1748,9 +1789,28 @@ K("c6", "A = {2, 3, 4, 6, 9, 12} ordered by “a divides b.” In its Hasse diag
 Q('c6', "R = {(1, a), (2, b)} and S = {(a, x), (b, y), (b, z)}. What is S ∘ R?",
   ["{(1, x), (2, y), (2, z)}", "{(a, 1), (b, 2)}", "{(1, y), (2, x), (2, z)}", "{(x, 1), (y, 2), (z, 2)}"],
   "S ∘ R applies R first, then S: 1 → a → x, and 2 → b → y and z.");
-Q('c6', "Which relation is antisymmetric?",
-  ["≤ on the integers", "“has the same birthday as” on people", "≠ on the integers", "congruence mod 3 on the integers"],
-  "≤ is a partial order, so it is antisymmetric. The other three relate some pair of different elements in both directions (e.g. 1 ≠ 2 and 2 ≠ 1).");
+
+Q("c6", "R = {(1,2), (2,3), (3,1)} on {1, 2, 3}. Which pair is in R²?",
+  ["(1, 3)", "(1, 2)", "(1, 1)", "(3, 3)"],
+  "R² holds pairs joined by a path of length 2: 1→2→3 gives (1, 3). (1, 2) is a path of length 1; no path of length 2 returns 1 to 1.");
+Q("c6", "In the digraph of a relation R, what does (a, b) ∈ Rⁿ mean?",
+  ["There is a path of length n from a to b", "a and b are joined by n separate arrows", "a is related to b, and n is the degree of R", "b can be reached from a in at most n steps, with loops not allowed"],
+  "Rⁿ = R ∘ R ∘ … ∘ R (n times). (a, b) ∈ Rⁿ exactly when n arrows in a row lead from a to b.");
+Q("c6", "A is the adjacency matrix of a graph, and you compute the ordinary product A². What does its (i, j) entry give?",
+  ["The number of walks of length 2 from vertex i to vertex j", "Whether vertices i and j are adjacent", "The degree of vertex i", "The number of edges in the graph"],
+  "The (i, j) entry of Aⁿ counts walks of length n from i to j. A itself (n = 1) shows adjacency.");
+Q("c6", "What is the connectivity relation R* of a relation R?",
+  ["R ∪ R² ∪ R³ ∪ …, which equals the transitive closure of R", "R ∩ R²", "R ∪ R⁻¹, the symmetric closure", "The set of pairs (a, a)"],
+  "R* contains (a, b) when some path of any positive length goes from a to b: the union of all powers of R, which is the transitive closure.");
+Q("c6", "A database table has fields (StudentID, Name, Major, GPA) and 50 records. What is the degree of this n-ary relation?",
+  ["4", "50", "54", "200"],
+  "The degree is the number of domains (fields) in each n-tuple: 4. The 50 records are the number of tuples, not the degree.");
+Q("c6", "Which database operation keeps only chosen columns (fields) of a table?",
+  ["Projection", "Selection", "Join", "Composition"],
+  "Projection keeps chosen fields. Selection keeps rows that meet a condition; join combines two tables on shared fields.");
+Q("c6", "In an n-ary relation, a primary key is a domain whose values:",
+  ["uniquely identify each n-tuple", "appear in every other table", "are all numbers", "are the same for every record"],
+  "No two records share a primary key value, so it identifies each tuple.");
 
 // ── TOPIC 7: GRAPHS & TREES (24) ──
 K("c7", "A graph has vertices A–I and edges A–B, B–C, C–I, G–A, H–I, A–F, F–E, F–H, F–G, E–C, E–I, C–D. Which statement is true?",
@@ -1798,9 +1858,9 @@ Q('c7', "Which graph is NOT planar?",
 K("c7", "A directed graph has V = {d, a, b} and E = {(d, a), (a, b), (b, d), (b, a), (a, d)}. How many different cycles of length 3 are there?",
   ["1", "4", "0", "2"],
   "d → a → b → d follows three arrows. The reverse d → b → a → d needs (d, b), which is missing. Rotations of one cycle are the same cycle.");
-Q('c7', "What is the chromatic number of the cycle C₇?",
-  ["3", "2", "7", "4"],
-  "An odd cycle needs 3 colors; an even cycle needs only 2.");
+Q("c7", "You add one new edge between two existing vertices of a tree. What does the resulting graph contain?",
+  ["Exactly one cycle", "No cycles", "Exactly two cycles", "A number of cycles that depends on the tree"],
+  "A tree has exactly one simple path between any two vertices. The new edge plus that path forms exactly one cycle.");
 K("c7", "G has four vertices a, b, c, d, all joined to each other. Counting cycles that visit the same vertices in opposite orders as different, how many cycles begin at a?",
   ["12", "9", "15", "6"],
   "Every ordering works in a complete graph. Length 3: choose an ordered pair of the other 3 vertices, 3·2 = 6. Length 4: order all 3, 3·2·1 = 6. Total 12.");
@@ -1834,8 +1894,8 @@ const TOPICS = {
   c2: { name: 'Sets & Functions',          short: 'Sets & Functions', w: 16, n: 8 },
   c3: { name: 'Boolean Algebra',           short: 'Boolean Algebra', w: 14, n: 7 },
   c4: { name: 'Matrix Operations',         short: 'Matrices',        w: 8,  n: 4 },
-  c5: { name: 'Finite & Infinite Series',  short: 'Series',          w: 12, n: 6 },
-  c6: { name: 'Relations',                 short: 'Relations',       w: 12, n: 6 },
+  c5: { name: 'Finite & Infinite Series',  short: 'Series',          w: 8,  n: 4 },
+  c6: { name: 'Relations',                 short: 'Relations',       w: 16, n: 8 },
   c7: { name: 'Graphs & Trees',            short: 'Graphs & Trees',  w: 16, n: 8 }
 };
 const EXAM_SIZE = 50, PASS_PCT = 65, PASS_MARK = Math.ceil(EXAM_SIZE * PASS_PCT / 100);
