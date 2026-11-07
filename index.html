@@ -338,6 +338,27 @@
   .card-explain .verdict { font-weight: 800; display: block; margin-bottom: 4px; }
   .card-explain .verdict.ok { color: var(--accent3); }
   .card-explain .verdict.no { color: var(--accent4); }
+  .walk { margin: 0 18px 16px; border: 1px solid var(--border); border-radius: 10px; background: #fff; overflow: hidden; }
+  .review-card .walk { margin: 0; border: none; border-top: 1px solid var(--border); border-radius: 0; }
+  .walk summary { cursor: pointer; list-style: none; min-height: 48px; display: flex; align-items: center; gap: 8px; padding: 0 14px; font-weight: 800; font-size: 14px; color: var(--accent); background: var(--surface2); -webkit-tap-highlight-color: transparent; }
+  .walk summary::-webkit-details-marker { display: none; }
+  .walk summary::before { content: "▸"; transition: transform .15s; }
+  .walk[open] summary::before { transform: rotate(90deg); }
+  .walk summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .walk-body { padding: 14px; font-size: 14px; line-height: 1.6; }
+  .walk-lbl { display: block; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .walk-key { background: var(--def-bg); border-left: 4px solid var(--accent); border-radius: 6px; padding: 10px 12px; }
+  .walk-ans { margin-top: 4px; padding: 8px 12px; border-radius: 8px; background: rgba(31,138,91,.1); color: var(--accent3); }
+  .walk-ans b { color: var(--text); font-weight: 700; }
+  .walk-wrong { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .walk-wrong li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; margin: 0; }
+  .walk-wrong li.mine { border-color: var(--warn-border); background: var(--warn-bg); }
+  .walk-wrong .wl { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--surface2); color: var(--accent); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .walk-wrong li.mine .wl { background: var(--accent4); color: #fff; }
+  .walk-wrong .wopt { font-weight: 600; }
+  .walk-wrong .wwhy { color: var(--muted); }
+  .walk-wrong .yours { color: var(--accent4); font-size: 12px; margin-left: 4px; }
+  .walk-link { display: inline-block; margin-top: 12px; font-weight: 700; font-size: 13px; }
   .card-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px; border-top: 1px solid var(--border); background: var(--surface); }
   .card-nav-btn { font: inherit; font-size: 14px; font-weight: 700; border: none; border-radius: 10px; min-height: 48px; min-width: 96px; padding: 0 16px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
   .card-nav-btn.primary { background: var(--accent); color: #fff; }
@@ -1397,7 +1418,7 @@
   <!-- ═══════════ MOCK EXAM ═══════════ -->
   <section id="mock-exam">
     <h2>Mock Exam <span class="chip">150Q bank · 50 random</span> <span class="marks">65% to pass</span></h2>
-    <p class="section-intro">Each attempt draws 50 questions in proportion to topic weight, and answer options are shuffled every time. Tap an answer to lock it in and see the explanation. Swipe left or tap <strong>Next →</strong> to advance; swipe right to go back. Tap any dot to jump to that question. Cards tagged <strong>Course practice</strong> come from your course’s own practice exam, with figures rewritten as text.</p>
+    <p class="section-intro">Each attempt draws 50 questions in proportion to topic weight, and answer options are shuffled every time. Tap an answer to lock it in. You’ll see a short explanation and a <strong>Walk me through it</strong> panel with the key idea, the steps, and why each wrong choice is wrong (it opens automatically when you miss one). Swipe left or tap <strong>Next →</strong> to advance; swipe right to go back. Tap any dot to jump to that question. Cards tagged <strong>Course practice</strong> come from your course’s own practice exam, with figures rewritten as text.</p>
     <div id="card-area"></div>
     <div style="margin-top:40px;padding-top:26px;border-top:1px solid var(--border);">
       <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
@@ -1885,6 +1906,472 @@ K("c7", "A graph has edges 1–2, 1–3, 2–4, 3–4, 4–5, 5–6. Visiting th
 Q('c7', "Which describes Kruskal’s algorithm for a minimum spanning tree?",
   ["Repeatedly add the cheapest edge anywhere that does not form a simple circuit", "Repeatedly add the cheapest edge that connects the current tree to a new vertex", "Repeatedly visit the closest unvisited vertex from a start vertex", "Repeatedly go as deep as possible before backtracking"],
   "Kruskal adds the cheapest circuit-free edge anywhere. Option B is Prim’s algorithm, C is Dijkstra’s, and D is depth-first search.");
+// Step-by-step walkthroughs, keyed by question id.
+// k = the key idea, s = solving steps, w = why each wrong option (bank options 1, 2, 3) is wrong.
+const WALK = {};
+function W(id, k, s, w) { WALK[id] = { k, s, w }; }
+
+// ── TOPIC 1 ──
+W('c1_01', "A proposition is a declarative sentence that is either true or false, but not both.",
+  ["Test each choice: can you say “that’s true” or “that’s false” about it as written?", "“7 is an odd number” is a statement of fact, and it is true. So it is a proposition."],
+  ["A command (“Close the door”) has no truth value.", "x + 3 = 10 is true only for x = 7; without a value for x it is neither true nor false.", "A question has no truth value."]);
+W('c1_02', "p → q breaks only when the promise is broken: the hypothesis happens and the conclusion doesn’t.",
+  ["Picture “If you work Saturday (p), you get Monday off (q).”", "The promise is broken only if you work Saturday (p true) and don’t get Monday off (q false).", "Every other row of the truth table is true."],
+  ["p false, q true: the hypothesis never happened, so nothing was broken. True.", "p false, q false: again the hypothesis didn’t happen. True.", "Both true: the promise was kept. True."]);
+W('c1_03', "Substitute the truth values, evaluate ¬ first, then ∧ and ∨.",
+  ["Write down: p = T, q = F, r = T, so ¬p = F, ¬r = F.", "¬p ∨ r = F ∨ T = T. An “or” needs only one true part.", "Check the rest to be sure each is false."],
+  ["¬(p ∧ r) = ¬(T ∧ T) = ¬T = F.", "p ∧ ¬r = T ∧ F = F.", "¬p ∨ q = F ∨ F = F."]);
+W('c1_04', "Translate word by word, and watch for a statement that is already negative.",
+  ["“This is a great website” is exactly P.", "“and” becomes ∧.", "Q says “you should NOT come back.” The sentence says “you SHOULD come back,” which is the opposite of Q, so it is ¬Q.", "Result: P ∧ ¬Q."],
+  ["P ∧ Q would say “…and you should not come back.”", "“or” is ∨, but the sentence says “and.”", "¬P would mean “this is not a great website,” which the sentence doesn’t say."]);
+W('c1_05', "Contrapositive = swap the two parts AND negate both: p → q becomes ¬q → ¬p.",
+  ["Start with p → q.", "Swap: q → p (that alone is the converse).", "Negate both: ¬q → ¬p. That is the contrapositive."],
+  ["q → p only swaps; that is the converse.", "¬p → ¬q only negates; that is the inverse.", "¬p → q isn’t one of the named forms."]);
+W('c1_06', "Converse = swap hypothesis and conclusion, with no negations.",
+  ["Hypothesis p: “a shape is a square.” Conclusion q: “it is a rectangle.”", "Converse q → p: “If a shape is a rectangle, then it is a square.”", "(The converse can be false even when the original is true, as here.)"],
+  ["Negated and swapped: that’s the contrapositive.", "Negated but not swapped: that’s the inverse.", "“Square and not rectangle” is the negation of the conditional, p ∧ ¬q."]);
+W('c1_07', "A conditional is always equivalent to its contrapositive, and to nothing else in this list.",
+  ["List the four forms: conditional p → q, converse q → p, inverse ¬p → ¬q, contrapositive ¬q → ¬p.", "Only the contrapositive has the same truth table as p → q."],
+  ["The converse is not equivalent to the original.", "The inverse is not equivalent to the original (it matches the converse).", "p ∧ ¬q is the negation of p → q, the exact opposite."]);
+W('c1_08', "De Morgan: negating an “and” gives the “or” of the negations.",
+  ["Push the ¬ onto each part: ¬p, ¬q.", "Flip ∧ to ∨.", "¬(p ∧ q) ≡ ¬p ∨ ¬q."],
+  ["¬p ∧ ¬q forgot to flip ∧ to ∨ (it equals ¬(p ∨ q)).", "p ∨ q didn’t negate the parts.", "¬p ∧ q negates only one part."]);
+W('c1_09', "p → q is false only when p is true and q is false, so its negation is p ∧ ¬q.",
+  ["Ask: what exactly makes p → q false?", "Answer: p true and q false.", "Write that as a statement: p ∧ ¬q."],
+  ["¬p → ¬q is the inverse, still a conditional, not the negation.", "¬p ∨ q is equivalent to p → q itself, not its negation.", "q → p is the converse."]);
+W('c1_10', "Push the ¬ inward with De Morgan, then cancel double negations.",
+  ["¬(¬p ∨ q): negate each part and flip ∨ to ∧.", "That gives ¬¬p ∧ ¬q.", "¬¬p = p, so the result is p ∧ ¬q."],
+  ["¬p ∧ ¬q forgot that ¬¬p is p.", "¬p ∧ q negated the wrong part.", "¬p ∨ ¬q didn’t flip ∨ to ∧, and kept a single ¬ on p."]);
+W('c1_11', "A truth table with n variables has 2ⁿ rows.",
+  ["Each variable can be T or F: 2 choices.", "3 variables: 2 × 2 × 2 = 2³ = 8 rows."],
+  ["6 = 2 × 3, which multiplies instead of using a power.", "9 = 3², the base and exponent swapped.", "3 is just the number of variables."]);
+W('c1_12', "A tautology is true in every row of its truth table.",
+  ["Try p = T and p = F for p ∨ ¬p.", "p = T: T ∨ F = T. p = F: F ∨ T = T.", "Always true, so it is a tautology."],
+  ["p ∧ ¬p is always false: a contradiction.", "p → q is false when p = T, q = F: a contingency.", "p ∧ q is false whenever either part is false: a contingency."]);
+W('c1_13', "A variable is free when it sits outside the scope (parentheses) of the quantifier that names it.",
+  ["Find each quantifier and the parentheses right after it; that is its scope.", "In ∀x (P(x)) ∧ R(x), the scope of ∀x ends after (P(x)).", "So the x in R(x) is not covered by any quantifier: it is free."],
+  ["∃x covers P(x) and ∃y covers R(y): both bound.", "The parentheses after ∃x contain both P(x) and R(x): both bound.", "The parentheses after ∀x contain both: both bound."]);
+W('c1_14', "p ↔ q is true when both sides match.",
+  ["Check the truth table: T↔T = T, F↔F = T, T↔F = F, F↔T = F.", "So it is true exactly when p and q have the same truth value."],
+  ["“Exactly one true” describes exclusive or (⊕), the opposite of ↔.", "With p true and q false, p ↔ q is false.", "With q false and p true, p ↔ q is false."]);
+W('c1_15', "Use the false conclusion s to work backward (modus tollens), then use what you know about r.",
+  ["(p ∧ r) → s is true, and s is false. A true conditional with a false conclusion must have a false hypothesis, so p ∧ r is false.", "r is true. For p ∧ r to be false, p must be false.", "The first premise (p ∨ q) → r has a true conclusion, so it is true no matter what p and q are. It tells you nothing about q."],
+  ["p true would make p ∧ r true, forcing s to be true. But s is false.", "Nothing forces q either way.", "Nothing forces q either way."]);
+W('c1_16', "To negate nested quantifiers, flip every quantifier (∃↔∀), then negate the inside with De Morgan.",
+  ["¬∃x ∀y (…) becomes ∀x ∃y ¬(…).", "Inside: ¬(xy = 1 ∨ xy ≠ 1) becomes (xy ≠ 1 ∧ xy = 1). The ∨ flips to ∧ and each part is negated.", "Result: ∀x ∃y (xy ≠ 1 ∧ xy = 1)."],
+  ["Kept ∃x ∀y (not flipped) and kept ∨.", "Negated the inside correctly but didn’t flip the quantifiers.", "Flipped the quantifiers but didn’t negate the inside."]);
+W('c1_17', "¬∃x P(x) ≡ ∀x ¬P(x): “nobody is late” = “everyone is not late.”",
+  ["The original is “there exists an employee who is late” (∃).", "Negating ∃ gives ∀, and the inside becomes “not late.”", "Result: “Every employee is not late.”"],
+  ["“Some employee is not late” can be true at the same time as the original, so it is not the negation.", "“Every employee is late” makes the original even more true.", "That sentence includes the original claim, so it can’t be its negation."]);
+W('c1_18', "A universal claim fails if it fails even once: one counterexample is enough.",
+  ["∀x P(x) says P is true for every x.", "Find a single x where P(x) is false, and the claim is false."],
+  ["Examples where P is true can never disprove a “for all” claim.", "One true case doesn’t disprove anything.", "A proof that assumes P(x) is trying to show something true, not false."]);
+W('c1_19', "∀x ∃y means y may depend on x: for each x you get to choose your own y.",
+  ["Pick any integer x.", "Choose y = −x. Then x + y = 0.", "This works for every x, so the statement is true."],
+  ["“No single y works for every x” describes ∃y ∀x, the other order.", "It works for every integer, including negatives and 0.", "0’s opposite is 0, and 0 + 0 = 0."]);
+W('c1_20', "Modus ponens: you have p, and p → q, so you get q. (“Put p in, get q out.”)",
+  ["Look for the pattern: the hypothesis p is given on its own, plus the conditional.", "Conclusion: the conclusion q."],
+  ["¬q with p → q giving ¬p is modus tollens.", "Chaining two conditionals is hypothetical syllogism.", "Using p ∨ q and ¬p is disjunctive syllogism."]);
+W('c1_21', "Modus tollens: p → q and ¬q give ¬p.",
+  ["p = it rains, q = the lot floods. Premise 1: p → q.", "Premise 2: the lot did not flood, ¬q.", "Conclusion: it did not rain, ¬p. That is modus tollens."],
+  ["Modus ponens would start from “it rained” (p).", "Disjunctive syllogism needs an “or” statement.", "Hypothetical syllogism needs two conditionals."]);
+W('c1_22', "Hypothetical syllogism chains two conditionals end to end.",
+  ["p → q and q → r share the middle q.", "Link them: p → r."],
+  ["Modus ponens needs p stated on its own.", "Resolution works on “or” statements (p ∨ q, ¬p ∨ r).", "Addition turns p into p ∨ q."]);
+W('c1_23', "Disjunctive syllogism: one of two options, and it isn’t the first, so it’s the second.",
+  ["“Cash or card” is p ∨ q.", "“Not cash” is ¬p.", "Therefore q: card."],
+  ["Simplification takes one part of an “and.”", "Conjunction joins two statements with “and.”", "Modus tollens needs a conditional."]);
+W('c1_24', "Affirming the conclusion: q is true and p → q, so someone wrongly concludes p.",
+  ["p = studies, q = passes. Premise: p → q.", "Given: Jo passed (q).", "Concluding p (studied) is invalid: Jo could have passed for another reason."],
+  ["Denying the hypothesis would start from “Jo didn’t study.”", "Modus ponens needs p (studied) given, not q.", "Modus tollens needs ¬q (didn’t pass)."]);
+W('c1_25', "Denying the hypothesis: ¬p and p → q, so someone wrongly concludes ¬q.",
+  ["p = holiday, q = closes early. Premise: p → q.", "Given: not a holiday (¬p).", "Concluding ¬q is invalid: the store could close early for another reason."],
+  ["Affirming the conclusion would start from q (it closed early).", "Modus tollens needs ¬q given, not ¬p.", "Disjunctive syllogism needs an “or” statement."]);
+W('c1_26', "Simplification: from “p and q” you may keep just p.",
+  ["p ∧ q being true means each part is true.", "So p alone is true: simplification."],
+  ["Addition goes from p to p ∨ q.", "Conjunction goes from p and q (separately) to p ∧ q.", "Resolution combines two “or” statements."]);
+W('c1_27', "Resolution: p and ¬p cancel; join what’s left with ∨.",
+  ["p ∨ q and ¬p ∨ r contain p and ¬p.", "Drop them and combine the leftovers: q ∨ r."],
+  ["The result is an “or,” not an “and.”", "p is the canceled variable; it doesn’t stay.", "q appears without a negation in the premises."]);
+W('c1_28', "Check what the proof assumes. If it assumes the conclusion is false and shows the hypothesis is false, it is contraposition.",
+  ["Theorem: ab > 25 → (a > 5 or b > 5).", "Negate the conclusion with De Morgan: a ≤ 5 and b ≤ 5. That is exactly what the proof assumes.", "It then shows ab ≤ 25, the negation of the hypothesis. That is ¬q → ¬p: contraposition.", "Each step (a ≤ 5 ⇒ ab ≤ 5b; b ≤ 5 ⇒ 5b ≤ 25) is correct, so it is valid."],
+  ["A direct proof would assume ab > 25 and work forward.", "It isn’t direct, and the steps are correct.", "It is contraposition, but the steps are correct, so it is valid."]);
+W('c1_29', "Proof by contradiction: assume the statement is false and reach something impossible.",
+  ["Start: “Suppose the statement is false.”", "Derive a contradiction (r ∧ ¬r).", "Conclude the statement must be true."],
+  ["You assume the whole statement false, not just the hypothesis.", "That is the basis step of induction.", "A counterexample disproves a statement; it doesn’t prove one."]);
+W('c1_30', "A truth table is a proof by cases, and it is valid only if every entry is right and the final columns really match.",
+  ["Each row is a case, so the method is proof by cases (exhaustion).", "Check the (F, F) row: ¬Q = T, so P ∧ ¬Q = F ∧ T = F. The table says T, which is wrong.", "Compare the last two columns in that row: F vs T. They don’t match as written.", "A table with an error, whose columns don’t match, proves nothing: not valid."],
+  ["The method is right, but the table has an error, so it is not valid.", "Nothing here assumes the negation of a conditional, so it isn’t contraposition.", "Nothing here assumes the statement is false, so it isn’t contradiction."]);
+W('c1_31', "The inductive hypothesis is the assumption P(k) you use to prove P(k + 1).",
+  ["Induction has two parts: basis step and inductive step.", "In the inductive step you assume P(k) is true (the inductive hypothesis) and prove P(k + 1)."],
+  ["Proving P(1) is the basis step.", "P(k + 1) is what you prove, not what you assume.", "Assuming P(k + 1) would assume what you need to prove."]);
+W('c1_32', "The basis step checks the first value the statement claims to cover.",
+  ["The claim starts at n = 4.", "So the basis step proves P(4)."],
+  ["P(1) is outside the claim (n ≥ 4).", "P(0) is outside the claim.", "P(k + 1) is the goal of the inductive step."]);
+W('c1_33', "Strong induction assumes all earlier cases P(1), …, P(k), not just P(k).",
+  ["Ordinary: assume P(k), prove P(k + 1).", "Strong: assume P(1) through P(k), prove P(k + 1).", "It still needs a basis step."],
+  ["Assuming only P(k) is ordinary induction.", "Strong induction still needs a basis step.", "Proving P(k) from P(k + 1) goes backward."]);
+
+// ── TOPIC 2 ──
+W('c2_01', "A power set lists every subset, keeping each element exactly as written. Here {b} is one element.",
+  ["The elements of A are a, {b}, and c. There are 3, so there are 2³ = 8 subsets.", "List them: ∅, {a}, {{b}}, {c}, {a, {b}}, {a, c}, {{b}, c}, {a, {b}, c}.", "Match against the options. Order inside braces doesn’t matter ({c, a} = {a, c})."],
+  ["It includes {a, b, c}, but b alone is not an element of A.", "It treats b as an element ({b}, {a, b}, …).", "It lists a, b, c as bare elements instead of subsets, and uses b."]);
+W('c2_02', "|A × B| = |A| · |B|.",
+  ["|A| = 3, |B| = 2.", "3 · 2 = 6 ordered pairs."],
+  ["5 adds instead of multiplying.", "9 = 3².", "8 = 2³ (counts functions from A to B, not pairs)."]);
+W('c2_03', "In a product like C × B × A, the 1st entry comes from C, the 2nd from B, the 3rd from A.",
+  ["(x, 2, c) ∈ C × B × A? x ∈ C ✓, 2 ∈ B ✓, c ∈ A ✓. True.", "Check each other option one entry at a time."],
+  ["(4, a, x): 4 is not in A.", "(a, b, 4): b is not in B.", "(c, 6, x): 6 is not in A."]);
+W('c2_04', "The intersection of several sets keeps only what is in every one of them.",
+  ["Write out the sets: A₁ = {1, 2, 3}, A₂ = {2, 3, 4}, A₃ = {3, 4, 5}.", "Which numbers appear in all three? Only 3."],
+  ["{1, 2, 3, 4, 5} is the union.", "{1, 2, 3} is just A₁.", "3 is shared by all three, so it isn’t empty."]);
+W('c2_05', "A − B keeps the elements of A that are not in B.",
+  ["Start with A = {1, 2, 3, 4, 5}.", "Remove anything also in B: remove 4 and 5.", "Left: {1, 2, 3}."],
+  ["{6, 7} is B − A.", "{4, 5} is A ∩ B.", "{1, 2, 3, 6, 7} is the symmetric difference."]);
+W('c2_06', "A ⊕ B = elements in exactly one of the sets = (A − B) ∪ (B − A).",
+  ["A − B = {1, 2, 3}.", "B − A = {6, 7}.", "Union: {1, 2, 3, 6, 7}."],
+  ["{4, 5} is the intersection, the part that is removed.", "{1, 2, 3} is only A − B.", "{1, …, 7} is the union."]);
+W('c2_07', "The complement is everything in U that is not in A.",
+  ["U = {1, …, 10}; A holds the even numbers.", "Remove them: {1, 3, 5, 7, 9}."],
+  ["That is A itself.", "∅ would mean A = U.", "That is U itself."]);
+W('c2_08', "Inclusion–exclusion: |A ∪ B| = |A| + |B| − |A ∩ B|.",
+  ["12 + 9 = 21 counts the overlap twice.", "Subtract the overlap once: 21 − 4 = 17."],
+  ["21 forgot to subtract the overlap.", "25 added the overlap instead of subtracting.", "13 subtracted the overlap twice."]);
+W('c2_09', "Rearrange inclusion–exclusion: |A ∩ B| = |A| + |B| − |A ∪ B|.",
+  ["|A ∪ B| = 50 (at least one), |A| = 30, |B| = 28.", "50 = 30 + 28 − both.", "both = 58 − 50 = 8."],
+  ["2 = 30 − 28, which isn’t the formula.", "22 = 50 − 28, which ignores the shoe buyers.", "58 = 30 + 28, which is the sum before subtracting."]);
+W('c2_10', "Test each claim; one counterexample kills it.",
+  ["A ⊂ B means A is inside B and B has something A lacks. B ⊆ C puts all of B inside C, including that extra element. So A ⊂ C. True.", "Try to break the others with small sets."],
+  ["Counterexample: A = {1}, B = {2}, C = {1}. A ≠ B and B ≠ C, but A = C.", "Counterexample: A = 1, B = {1, 2}, C = {1}. A ∈ B and B ⊄ C (2 is missing from C), yet A ∈ C.", "A ⊆ B and B ⊆ A means A = B, so A − B = ∅, not A (unless A is empty)."]);
+W('c2_11', "De Morgan for sets: the complement of a union is the intersection of the complements.",
+  ["Not in (A or B) means not in A AND not in B.", "So it equals Ā ∩ B̄."],
+  ["Ā ∪ B̄ is the complement of A ∩ B.", "A ∩ B isn’t a complement at all.", "The complement of A ∩ B equals Ā ∪ B̄, a different set."]);
+W('c2_12', "A partition needs nonempty blocks that don’t overlap and that cover everything. Look for an overlap or a gap.",
+  ["Composites: 4, 6, 8, 9, … Odd primes: 3, 5, 7, … Multiples of 2: 2, 4, 6, …", "4 is composite and a multiple of 2, so B₁ and B₃ overlap.", "Not disjoint, so not a partition. (Also, 1 is in none of the sets.)"],
+  ["They overlap at 4, 6, 8, …", "A prime is never composite, so B₁ and B₂ don’t overlap.", "The union isn’t even all of ℤ⁺ (1 is missing), and covering everything isn’t enough anyway."]);
+W('c2_13', "Test one-to-one (no two inputs share an output) and onto (every output is hit).",
+  ["One-to-one: x + 5 = y + 5 forces x = y. ✓", "Onto: any integer t is hit by x = t − 5. ✓", "Both, so it is a bijection (inverse: x − 5)."],
+  ["It is also onto.", "It is also one-to-one.", "It is both."]);
+W('c2_14', "Squaring loses signs, and it never produces negatives.",
+  ["Not one-to-one: f(2) = f(−2) = 4.", "Not onto: −1 is never an output.", "So neither."],
+  ["A bijection needs both properties.", "It is not one-to-one.", "It is not onto."]);
+W('c2_15', "Multiplying by 3 keeps inputs distinct but only hits multiples of 3.",
+  ["One-to-one: 3a = 3b forces a = b. ✓", "Onto? Is 1 an output? 3x = 1 has no integer solution. ✗", "So one-to-one but not onto."],
+  ["It is one-to-one, and it is not onto.", "It is not onto, so not a bijection.", "It is one-to-one."]);
+W('c2_16', "An inverse must undo f for every output, so f must be one-to-one and onto.",
+  ["One-to-one makes the reverse direction unambiguous.", "Onto makes the reverse defined for every element of the codomain.", "Both together = bijection."],
+  ["One-to-one alone leaves some outputs without a preimage.", "Onto alone can map two inputs to one output.", "Equal domain and codomain doesn’t guarantee either property."]);
+W('c2_17', "To find an inverse, write y = f(x) and solve for x.",
+  ["y = 4x − 5.", "Add 5: y + 5 = 4x.", "Divide by 4: x = (y + 5)/4. Rename: f⁻¹(x) = (x + 5)/4."],
+  ["It adds 5 after dividing; the 5 must be added before dividing.", "It subtracts 5, but you need to undo −5 with +5.", "It subtracts 5 instead of adding."]);
+W('c2_18', "(f ∘ g)(x) = f(g(x)): do g first, then f.",
+  ["g(4) = 4² = 16.", "f(16) = 2 · 16 − 5 = 32 − 5 = 27."],
+  ["48 = 3 · 16; it doesn’t match f.", "22 = 2 · 16 − 10, which subtracts 5 twice.", "9 = (g ∘ f)(4) = (2 · 4 − 5)² = 3², the reverse order."]);
+W('c2_19', "Follow the arrows: inner function first.",
+  ["g(a): g sends a → 3.", "f(3): f sends 3 → a.", "So f(g(a)) = a."],
+  ["c would come from f(2).", "1 is g(b), from the wrong starting point.", "3 is only the halfway value g(a)."]);
+W('c2_20', "Ceiling rounds up; floor rounds down.",
+  ["⌈4.2⌉ = 5.", "⌊4.8⌋ = 4.", "5 + 4 = 9."],
+  ["8 rounds both down.", "10 rounds both up.", "7 doesn’t match any rounding."]);
+W('c2_21', "Floor = largest integer ≤ x. For negatives, that moves away from 0.",
+  ["On the number line, −3.4 sits between −4 and −3.", "The integer at or below it is −4."],
+  ["−3 is greater than −3.4, so it isn’t ≤ x.", "The sign was dropped.", "The floor is always an integer."]);
+W('c2_22', "Each input independently picks one output: |B|^|A| functions.",
+  ["4 inputs, each with 3 choices.", "3 · 3 · 3 · 3 = 3⁴ = 81."],
+  ["64 = 4³, base and exponent swapped.", "12 = 4 · 3, which multiplies instead of using a power.", "7 = 4 + 3."]);
+W('c2_23', "The range is the set of outputs actually produced.",
+  ["Outputs: f(1) = a, f(2) = a, f(3) = c.", "Collect them without repeats: {a, c}."],
+  ["{a, b, c, d} is the codomain.", "{1, 2, 3} is the domain.", "d is never produced."]);
+W('c2_24', "ℤ and ℚ can be listed in a sequence; ℝ cannot (Cantor’s diagonal argument).",
+  ["Countable = finite, or can be listed 1st, 2nd, 3rd, …", "ℤ⁺, ℤ, and ℚ can all be listed.", "No list contains every real number, so ℝ is uncountable."],
+  ["ℤ can be listed: 0, 1, −1, 2, −2, …", "ℚ is countable even though it is dense.", "ℤ⁺ is the model of a countable set."]);
+// ── TOPIC 3 ──
+W('c3_01', "Series = AND (multiply), parallel = OR (add). A switch labeled −P is closed when P is false.",
+  ["Translate the circuit: (P + Q + R) in series with (P̄ + Q̄), so the lamp is (P + Q + R)(P̄ + Q̄).", "The lamp glows only if both factors are 1.", "P true, Q false: first factor 1 + 0 + R = 1; second factor 0 + 1 = 1. Lamp on."],
+  ["P and Q both true make P̄ + Q̄ = 0 + 0 = 0.", "Same problem: P and Q true make the second factor 0.", "All false make P + Q + R = 0."]);
+W('c3_02', "Plug in the values, take complements first, then products, then sums.",
+  ["x = 1, y = 0, z = 1, so x̄ = 0, ȳ = 1, z̄ = 0.", "u = x̄(y + z̄) = 0 · (0 + 0) = 0.", "v = y + xz + x̄yz̄ = 0 + 1·1 + 0·0·0 = 0 + 1 + 0 = 1."],
+  ["v has the term xz = 1, so v can’t be 0.", "u starts with x̄ = 0, so u must be 0.", "u must be 0."]);
+W('c3_03', "Absorption: x + xy = x.",
+  ["If x = 1, the sum is 1 = x.", "If x = 0, xy = 0, so the sum is 0 = x.", "Either way it equals x."],
+  ["When x = 1 and y = 0, xy = 0 but x + xy = 1.", "When x = 1 and y = 0, y = 0 but the expression is 1.", "When x = 0 and y = 1, x + y = 1 but the expression is 0."]);
+W('c3_04', "De Morgan: the complement of a product is the sum of the complements.",
+  ["Complement each variable: x̄, ȳ.", "Flip · to +: x̄ + ȳ."],
+  ["x̄ · ȳ is the complement of x + y.", "x + y has no complements at all.", "xȳ complements only y."]);
+W('c3_05', "Unsatisfiable = 0 for every input. Look for a factor that can never be 1, like x · x̄.",
+  ["x · x̄ is always 0, because x and x̄ can’t both be 1.", "Multiplying by y keeps it 0. So x · x̄ · y is 0 for every input."],
+  ["x + ȳ = 1 when x = 1.", "xȳ + x̄y = 1 when (x, y) = (1, 0).", "(x + y)(x̄ + ȳ) = 1 when (x, y) = (1, 0)."]);
+W('c3_06', "Evaluate the given expression, then evaluate each option and match.",
+  ["x = 0, y = 1, z = 1, so x̄ = 1, ȳ = 0.", "x̄y(yz + x̄) + ȳ = 1·1·(1 + 1) + 0 = 1·1·1 + 0 = 1.", "Options: yz = 1 ✓, xy = 0, xz̄ = 0, ȳz = 0."],
+  ["xy = 0 · 1 = 0.", "xz̄ = 0 · 0 = 0.", "ȳz = 0 · 1 = 0."]);
+W('c3_07', "Use the distributive law (x + y)(x + z) = x + yz, then the complement law.",
+  ["(x + y)(x + ȳ) = x + y·ȳ.", "y·ȳ = 0.", "x + 0 = x."],
+  ["y cancels out (y·ȳ = 0), so the answer can’t depend only on y.", "With x = 1 the expression is 1, so it isn’t always 0.", "With x = 0, y = 0 the second factor is 1 but the first is 0, so it isn’t always 1."]);
+W('c3_08', "For a product to be 1, every factor must be 1. Solve the simplest factor first.",
+  ["ȳ = 1 forces y = 0.", "x + y = x + 0 must be 1, so x = 1.", "x̄ + z = 0 + z must be 1, so z = 1. Answer (1, 0, 1)."],
+  ["y = 1 makes ȳ = 0.", "y = 1 makes ȳ = 0.", "x = y = 0 makes x + y = 0."]);
+W('c3_09', "A minterm uses the plain variable for a 1 and its complement for a 0, multiplied together.",
+  ["x = 1 → x.", "y = 0 → ȳ.", "z = 0 → z̄. Minterm: xȳz̄."],
+  ["x̄yz is the minterm for (0, 1, 1).", "x + ȳ + z̄ is a sum (a maxterm form), not a minterm.", "xyz is the minterm for (1, 1, 1)."]);
+W('c3_10', "Sum-of-products: write a minterm for each row where F = 1, then add them.",
+  ["Row (0, 0) → x̄ȳ.", "Row (0, 1) → x̄y.", "F = x̄ȳ + x̄y (which simplifies to x̄)."],
+  ["xy + xȳ uses the rows where x = 1, where F = 0.", "x̄ + ȳ is a sum of literals, not minterms, and it is 1 at (1, 0) where F = 0.", "That is a product of sums, not a sum of products."]);
+W('c3_11', "NAND alone can build NOT, AND, and OR, so it is functionally complete.",
+  ["NOT: x̄ = x ↑ x.", "AND and OR then follow by combining NANDs.", "NOR is the other single gate that works."],
+  ["AND alone can’t make NOT.", "OR alone can’t make NOT.", "XOR alone can’t build every function."]);
+W('c3_12', "Write each gate’s output, combine them, then test the options.",
+  ["OR gate: x + y. NOT gates: x̄, z̄. First AND: x̄z̄.", "Final AND: (x + y)·x̄z̄.", "Need x̄z̄ = 1, so x = 0 and z = 0; then x + y = y must be 1, so y = 1. Answer (0, 1, 0)."],
+  ["z = 1 makes z̄ = 0.", "x = 1 makes x̄ = 0.", "x = 0, y = 0 makes x + y = 0, and z = 1 makes z̄ = 0."]);
+W('c3_13', "AND is the D shape: flat back, round front.",
+  ["Identify the shape: semicircle front with a flat back is AND.", "AND outputs 1 only when every input is 1: x = 1 and y = 1."],
+  ["An inverter is a triangle with a circle and has one input.", "OR is the curved shield shape, and it outputs 0 when both inputs are 0.", "There is no gate whose output is always 1."]);
+W('c3_14', "1 + 1 = 10 in binary: write 0, carry 1.",
+  ["Sum bit s = x ⊕ y = 1 ⊕ 1 = 0.", "Carry bit c = xy = 1 · 1 = 1."],
+  ["s = 1 would be the sum for one 1 and one 0.", "s is 0 when both inputs are 1.", "c = 0 would lose the carry."]);
+W('c3_15', "K-maps use Gray code, where neighbors differ in one bit: 00, 01, 11, 10.",
+  ["00 → 01 changes one bit.", "01 → 11 changes one bit.", "11 → 10 changes one bit (and 10 wraps back to 00, also one bit)."],
+  ["01 → 10 changes two bits, which breaks the rule.", "00 → 10 is fine, but 10 → 01 changes two bits.", "It is the reverse order; the standard labeling starts at 00."]);
+W('c3_16', "Neighbors differ in one variable, so grouping them drops that variable.",
+  ["Two adjacent cells, e.g. xyz and xyz̄, differ only in z.", "xyz + xyz̄ = xy(z + z̄) = xy. The changing variable disappears."],
+  ["The number of cells is fixed at 2ⁿ.", "Alphabetical order has nothing to do with it.", "Don’t-cares are a separate rule."]);
+W('c3_17', "K-map groups must have a power-of-2 number of cells: 1, 2, 4, 8, 16.",
+  ["8 = 2³ is allowed."],
+  ["6 is not a power of 2.", "3 is not a power of 2.", "5 is not a power of 2."]);
+W('c3_18', "A group of 2ᵏ cells in an n-variable map leaves n − k literals.",
+  ["n = 3, group of 4 = 2², so k = 2.", "3 − 2 = 1 literal."],
+  ["2 literals is the result for a group of 2.", "3 literals is a single cell.", "There are only 3 variables."]);
+W('c3_19', "Use n − k again.",
+  ["n = 4, group of 2 = 2¹, so k = 1.", "4 − 1 = 3 literals."],
+  ["2 literals would need a group of 4.", "1 literal would need a group of 8.", "4 literals is a single cell."]);
+W('c3_20', "Don’t-cares never happen, so use them however helps most.",
+  ["Mark each don’t-care as 1 if it lets you make a bigger group.", "Otherwise leave it as 0 and don’t cover it."],
+  ["Forcing every don’t-care to 1 can add needless groups.", "Forcing every don’t-care to 0 wastes chances to enlarge groups.", "They never need to be covered on their own."]);
+W('c3_21', "Place the 1s, make the largest power-of-2 groups, and keep only the variables that don’t change in each group.",
+  ["The 1s: xȳz̄ (row x, col 00), xȳz (row x, col 01), xyz (row x, col 11), x̄yz (row x̄, col 11).", "Group xȳz̄ + xȳz: x and ȳ stay, z changes → xȳ.", "Group xyz + x̄yz: y and z stay, x changes → yz.", "All four 1s are covered: F = xȳ + yz."],
+  ["x alone would also cover xyz̄, which is not a 1.", "Neither term matches the 1s (xz misses xȳz̄; ȳz̄ includes x̄ȳz̄).", "xyz is already inside a larger group, so it isn’t minimal."]);
+
+// ── TOPIC 4 ──
+W('c4_01', "(m × k)(k × n) = m × n: the inner numbers must match, and the outer numbers give the size.",
+  ["A is 2 × 3, B is 3 × 4. The inner numbers 3 and 3 match, so AB is defined.", "The outer numbers give the size: 2 × 4."],
+  ["3 × 3 uses the inner numbers.", "4 × 2 reverses the order.", "The inner numbers match, so it is defined."]);
+W('c4_02', "Addition needs the same size. Multiplication needs A’s columns = B’s rows.",
+  ["Both are 3 × 2, so A + B is defined.", "AB: A has 2 columns and B has 3 rows. They don’t match."],
+  ["2 ≠ 3, so AB is not defined.", "BA has the same problem.", "A + B is defined."]);
+W('c4_03', "Check sizes first, then compute row × column.",
+  ["A is 2 × 2 and B is 2 × 3, so AB is 2 × 3.", "Row 1 of A (1, 2) × columns of B: 1+2 = 3, −1+4 = 3, 2+6 = 8.", "Row 2 of A (2, −1): 2−1 = 1, −2−2 = −4, 4−3 = 1. AB = [3 3 8; 1 −4 1]."],
+  ["AC = [1·1 + 2·(−1); 2·1 + (−1)(−1)] = [−1; 3].", "There is no matrix division.", "That has the right numbers but the wrong shape (3 × 2)."]);
+W('c4_04', "Gauss–Jordan inversion: [A | I] → [I | A⁻¹].",
+  ["Put the identity matrix next to A.", "Row reduce until the left half is I.", "The right half is then A⁻¹."],
+  ["The identity starts on the right, not the left.", "A single zero column can’t hold an n × n inverse.", "Starting with [A | A] gives nothing useful."]);
+W('c4_05', "Transpose: row i becomes column i.",
+  ["Row 1 (1, 2, 3) becomes column 1.", "Row 2 (4, 5, 6) becomes column 2.", "Result: [1 4; 2 5; 3 6], a 3 × 2 matrix."],
+  ["That reverses each row; it isn’t a transpose.", "That only swaps the rows.", "That reverses everything."]);
+W('c4_06', "det [a b; c d] = ad − bc.",
+  ["a = 5, b = 2, c = 3, d = 4.", "ad − bc = 5·4 − 2·3 = 20 − 6 = 14."],
+  ["26 adds instead of subtracting.", "20 is only ad.", "−14 subtracts in the wrong order (bc − ad)."]);
+W('c4_07', "A 2 × 2 matrix has no inverse exactly when ad − bc = 0.",
+  ["[2 6; 1 3]: 2·3 − 6·1 = 6 − 6 = 0. No inverse.", "Check the others are nonzero."],
+  ["1·4 − 2·3 = −2, not 0.", "2·2 − 0 = 4, not 0.", "1·1 − 0 = 1, not 0."]);
+W('c4_08', "A⁻¹ = (1/det)·[d −b; −c a]: swap a and d, negate b and c, divide by the determinant.",
+  ["det = (−2)(−1) − (1)(3) = 2 − 3 = −1.", "Swap and negate: [−1 −1; −3 −2].", "Divide by −1: [1 1; 3 2]. (Check: A times it gives I.)"],
+  ["Didn’t swap a and d correctly.", "Wrong signs: it didn’t negate b and c correctly and skipped dividing by the determinant.", "Forgot to divide by det = −1."]);
+W('c4_09', "Matrix multiplication is not commutative in general.",
+  ["Example: [1 2; 3 4]·[0 1; 1 0] = [2 1; 4 3], but the reverse order gives [3 4; 1 2].", "Some pairs do commute (e.g. A and I), so “never” is too strong."],
+  ["The example above is square and they don’t commute.", "Same size doesn’t make them commute.", "AI = IA, so they sometimes commute."]);
+W('c4_10', "Build the augmented matrix with the exact signs, then clear the entry below the first 1.",
+  ["Coefficients: row 1 (1, 1 | 3), row 2 (3, −2 | 4). The constants stay positive.", "Use −3R₁ + R₂ → R₂: (−3 + 3, −3 − 2 | −9 + 4) = (0, −5 | −5).", "Result: [1 1 | 3; 0 −5 | −5]."],
+  ["It lost the minus sign on −2y.", "It negated the constants.", "It negated the constants and lost the sign on −2y."]);
+W('c4_11', "Boolean product: multiply like matrices, using AND for × and OR for +.",
+  ["c₁₁ = (1∧0) ∨ (0∧1) = 0. c₁₂ = (1∧1) ∨ (0∧0) = 1.", "c₂₁ = (1∧0) ∨ (1∧1) = 1. c₂₂ = (1∧1) ∨ (1∧0) = 1.", "Result: [0 1; 1 1]."],
+  ["That is the join of the two matrices (entrywise OR), not the product.", "That is the meet (entrywise AND).", "A zero-one matrix never contains 2; 1 ∨ 1 = 1."]);
+W('c4_12', "Join = entrywise OR: a 1 wherever either matrix has a 1.",
+  ["Top row: (1∨0, 0∨1) = (1, 1).", "Bottom row: (0∨0, 1∨1) = (0, 1)."],
+  ["That is the meet (entrywise AND).", "Zero-one matrices never contain 2.", "That is just the second matrix."]);
+
+// ── TOPIC 5 ──
+W('c5_01', "Index 1 arithmetic: aₙ = a₁ + (n − 1)d.",
+  ["a₁₅ = 7 + (15 − 1)·4.", "= 7 + 56 = 63."],
+  ["67 uses n·d instead of (n − 1)·d.", "60 = 15·4, which forgot a₁.", "11 = 7 + 4 is only a₂."]);
+W('c5_02', "aₙ = aₙ₋₁ + 5 adds 5 each time: arithmetic with d = 5.",
+  ["aₙ = a₁ + (n − 1)d = 2 + 5(n − 1).", "= 5n − 3.", "Check: a₁ = 2 ✓, a₂ = 7 ✓."],
+  ["5n + 2 gives a₁ = 7.", "2·5ⁿ⁻¹ is geometric (multiply by 5), not adding 5.", "2n + 5 gives a₁ = 7 and adds 2 each time."]);
+W('c5_03', "Index 0 arithmetic: Sₙ = S₀ + n·d.",
+  ["S₅ = −54 + 5·10.", "= −54 + 50 = −4."],
+  ["6 takes 6 steps.", "−14 uses the index-1 formula (4 steps).", "15 doesn’t follow the formula."]);
+W('c5_04', "Plug the index into the formula.",
+  ["a₇ = 4/(7 + 1).", "= 4/8 = 1/2."],
+  ["2/3 = 4/6 uses k = 5.", "3/7 doesn’t follow the formula.", "7/11 doesn’t follow the formula."]);
+W('c5_05', "1 + 2 + … + n = n(n + 1)/2.",
+  ["n = 50: 50·51/2.", "= 2550/2 = 1275."],
+  ["2550 forgot to divide by 2.", "1250 = 50·50/2.", "1225 = 49·50/2, which is off by one."]);
+W('c5_06', "Arithmetic series: count the terms, then use n(first + last)/2.",
+  ["d = 4. Number of terms = (43 − 3)/4 + 1 = 10 + 1 = 11.", "Sum = 11·(3 + 43)/2 = 11·46/2 = 11·23 = 253."],
+  ["300 doesn’t match any count.", "210 uses 10 terms ending at 39.", "230 = 10·23, which forgot the +1 term."]);
+W('c5_07', "Infinite geometric series with |r| < 1: sum = first term / (1 − r).",
+  ["k = 0 term: 3·(1/5)⁰ = 3. Ratio r = 1/5.", "Sum = 3/(1 − 1/5) = 3/(4/5) = 3·5/4 = 15/4."],
+  ["5/2 doesn’t follow the formula.", "15/2 divided by 2/5 instead of 4/5.", "|r| < 1, so it converges."]);
+W('c5_08', "Alternating signs mean a negative ratio; the formula still works when |r| < 1.",
+  ["First term 4. Ratio: −2/4 = −1/2.", "Sum = 4/(1 − (−1/2)) = 4/(3/2) = 8/3."],
+  ["8 used r = +1/2.", "2 doesn’t follow the formula.", "|r| = 1/2 < 1, so it converges."]);
+W('c5_09', "A geometric series diverges when |r| ≥ 1.",
+  ["Find each ratio: 3/2, 1/2, −1/3, 0.9.", "Only 3/2 has |r| ≥ 1: the terms grow, so the sum blows up."],
+  ["|1/2| < 1 converges (to 2).", "|−1/3| < 1 converges.", "0.9 < 1 converges (slowly, to 10)."]);
+W('c5_10', "Terms going to 0 is necessary but not enough. The harmonic series still diverges.",
+  ["The terms 1/k shrink toward 0.", "But the partial sums keep growing past any number.", "So it diverges."],
+  ["1 is what the telescoping series converges to.", "2 is the sum of 1 + 1/2 + 1/4 + …, a different series.", "That reasoning is exactly the trap: shrinking terms don’t guarantee convergence."]);
+W('c5_11', "Build the Fibonacci list from f₀, adding the previous two each time.",
+  ["f₀ = 0, f₁ = 1, f₂ = 1, f₃ = 2, f₄ = 3, f₅ = 5.", "f₆ = 8, f₇ = 13, f₈ = 21, f₉ = 34."],
+  ["21 is f₈ (off by one).", "55 is f₁₀.", "13 is f₇."]);
+W('c5_12', "For aₙ = c₁aₙ₋₁ + c₂aₙ₋₂, the characteristic equation is r² − c₁r − c₂ = 0.",
+  ["c₁ = 3, c₂ = 4: r² − 3r − 4 = 0.", "Factor: (r − 4)(r + 1) = 0.", "Roots: 4 and −1."],
+  ["The signs are flipped: (−4)² − 3(−4) − 4 = 24 ≠ 0.", "The coefficients aren’t the roots.", "The equation doesn’t have a repeated root."]);
+// ── TOPIC 6 ──
+W('c6_01', "Equivalence = Reflexive, Symmetric, Transitive (“RST”).",
+  ["Equivalence relations behave like “is the same as”: everything matches itself (R), matching works both ways (S), and matches chain together (T)."],
+  ["Swapping symmetric for antisymmetric gives a partial order.", "Without reflexive it isn’t an equivalence relation, and it can’t be symmetric and antisymmetric in a useful way.", "Transitive is also required."]);
+W('c6_02', "Partial order = Reflexive, Antisymmetric, Transitive (“RAT”).",
+  ["Partial orders behave like ≤: a ≤ a (R); a ≤ b and b ≤ a force a = b (A); a ≤ b ≤ c gives a ≤ c (T)."],
+  ["Symmetric instead of antisymmetric gives an equivalence relation.", "Irreflexive + symmetric + transitive is neither.", "Reflexive and transitive are both missing."]);
+W('c6_03', "Check R, S, T one at a time.",
+  ["Reflexive: (1,1), (2,2), (3,3) are all there. ✓", "Symmetric: (1,2) has its partner (2,1). ✓", "Transitive: (1,2),(2,1) → (1,1) ✓; (2,1),(1,2) → (2,2) ✓. So it is an equivalence relation."],
+  ["(1,2) and (2,1) with 1 ≠ 2 break antisymmetry, so it isn’t a partial order.", "All three loops are present.", "Every chain closes, as checked."]);
+W('c6_04', "Transitive: if a → b and b → c, you need a → c.",
+  ["(1,2) and (2,3) form the chain 1 → 2 → 3.", "So (1,3) must be added."],
+  ["(3,1) reverses the chain.", "(2,1) would make it symmetric, not transitive.", "(1,1) isn’t required by any chain here."]);
+W('c6_05', "Reflexive means every (a, a) is in R: all 1s on the main diagonal.",
+  ["The diagonal entry mᵢᵢ is 1 exactly when (aᵢ, aᵢ) ∈ R.", "Reflexive needs this for every i."],
+  ["M = Mᵀ is the test for symmetric.", "All 0s on the diagonal means irreflexive.", "A 1 in every row says nothing about loops."]);
+W('c6_06', "M = Mᵀ means mᵢⱼ = mⱼᵢ: every pair appears in both directions.",
+  ["The transpose swaps (i, j) with (j, i).", "If the matrix doesn’t change, (a, b) ∈ R exactly when (b, a) ∈ R: symmetric."],
+  ["Reflexive is the diagonal test.", "Antisymmetric is close to the opposite.", "Transitivity needs the Boolean product test."]);
+W('c6_07', "Antisymmetric: two different elements are never related both ways.",
+  ["In the digraph, look at each pair of different vertices.", "There must never be arrows going both ways between them."],
+  ["A loop at every vertex shows reflexive.", "Every arrow with a reverse shows symmetric.", "No loops shows irreflexive."]);
+W('c6_08', "Divisibility is reflexive, antisymmetric, and transitive, but some pairs are incomparable.",
+  ["a | a ✓. a | b and b | a force a = b (positive integers) ✓. a | b and b | c give a | c ✓. So it is a partial order.", "Is it total? 2 and 3: neither divides the other. So not total."],
+  ["It isn’t symmetric (2 | 4 but 4 ∤ 2).", "2 and 3 are incomparable, so it isn’t total.", "It is antisymmetric."]);
+W('c6_09', "Symmetric closure = R ∪ R⁻¹: add the reverse of every pair.",
+  ["Reverse each pair: (1,2) → (2,1), (2,3) → (3,2).", "Union: {(1,2), (2,1), (2,3), (3,2)}."],
+  ["Adding (1,3) is the transitive closure.", "Adding loops is the reflexive closure.", "That is only R⁻¹; the closure must keep R."]);
+W('c6_10', "Reflexive closure: add every missing loop (a, a).",
+  ["Keep R and union it with all pairs (a, a) for a in A."],
+  ["R ∪ R⁻¹ is the symmetric closure.", "R ∩ R⁻¹ removes pairs; a closure only adds.", "R ∘ R is R², a power of R."]);
+W('c6_11', "In a Hasse diagram, a < b means you can climb from a up to b along edges.",
+  ["A → E is an edge going up. E → I is an edge going up.", "So A < E < I is valid."],
+  ["D and E aren’t joined.", "I sits above E, not above C.", "G sits above E, not above F."]);
+W('c6_12', "a ≡ b (mod m) means m divides a − b.",
+  ["29 = 4·6 + 5, so we need a number with remainder 5: 5, 11, 17, …", "Check 11: 29 − 11 = 18 = 3·6 ✓."],
+  ["29 − 9 = 20, which 6 doesn’t divide.", "29 − 13 = 16, which 6 doesn’t divide.", "29 − 6 = 23, which 6 doesn’t divide."]);
+W('c6_13', "Componentwise equivalence: the number of classes is (classes per position) raised to (number of positions).",
+  ["Each coordinate is either even or odd: 2 classes.", "Three coordinates: 2 · 2 · 2 = 2³ = 8 classes (EEE, EEO, …, OOO)."],
+  ["5 doesn’t follow the rule.", "6 = 2·3 multiplies instead of using a power.", "7 = 2³ − 1, which forgot one class."]);
+W('c6_14', "In an equivalence relation’s digraph, each class is a group of nodes joined by arrows.",
+  ["S and P point to each other: class {P, S}.", "E and B point to each other: class {B, E}.", "Partition: {{B, E}, {P, S}}."],
+  ["Splitting into singletons ignores the arrows between nodes.", "That lists the relation’s ordered pairs, not the partition.", "No arrows connect the two groups, so they aren’t one class."]);
+W('c6_15', "Hasse diagrams leave out what is implied: loops (reflexive) and shortcuts (transitive).",
+  ["Remove every loop.", "Remove every edge a → c when a → b → c already shows it.", "Draw the rest pointing upward."],
+  ["Transitive edges are removed too.", "Loops are removed too.", "Incomparable elements never had an edge."]);
+W('c6_16', "Place each number just above the numbers that divide it, with nothing in between.",
+  ["X is joined to 2 and 12 only. 4: 2 | 4 and 4 | 12 ✓.", "Y is joined to 2, 3, and 12. 6: 2 | 6, 3 | 6, 6 | 12 ✓.", "Z is joined to 3 but not 12. 9: 3 | 9, but 9 ∤ 12 ✓."],
+  ["9 can’t be Y: 2 ∤ 9.", "6 can’t be X: X isn’t joined to 3, but 3 | 6.", "Same problem: 6 isn’t X."]);
+W('c6_17', "S ∘ R: follow R first, then S.",
+  ["1 → a (R), then a → x (S): (1, x).", "2 → b (R), then b → y and b → z (S): (2, y), (2, z).", "S ∘ R = {(1, x), (2, y), (2, z)}."],
+  ["That is R⁻¹.", "It mixes up which letters follow a and b.", "That is the inverse of S ∘ R."]);
+W('c6_18', "R² holds the pairs joined by exactly two arrows in a row.",
+  ["1 → 2 → 3 gives (1, 3).", "2 → 3 → 1 gives (2, 1). 3 → 1 → 2 gives (3, 2).", "R² = {(1,3), (2,1), (3,2)}. Only (1, 3) is an option."],
+  ["(1, 2) is a path of length 1 (it is in R).", "Returning to 1 takes 3 arrows, not 2.", "Returning to 3 takes 3 arrows, not 2."]);
+W('c6_19', "Rⁿ = paths of length n in the digraph.",
+  ["(a, b) ∈ Rⁿ when you can go a → … → b using exactly n arrows."],
+  ["Multiple arrows between the same pair aren’t what Rⁿ counts.", "The degree of R is a different idea (from n-ary relations).", "It is exactly n steps, and loops are allowed."]);
+W('c6_20', "The ordinary power Aⁿ counts walks; the Boolean power only says yes or no.",
+  ["(A²)ᵢⱼ = Σ aᵢₖaₖⱼ: one term for each middle vertex k.", "Each 1·1 term is a walk i → k → j, so the sum counts walks of length 2."],
+  ["Adjacency is A itself (n = 1).", "Degree is a row sum of A.", "The edge count comes from the total degree divided by 2."]);
+W('c6_21', "R* = R ∪ R² ∪ R³ ∪ …: reachable by a path of any positive length. That is the transitive closure.",
+  ["Combine all powers of R.", "(a, b) ∈ R* exactly when some path leads from a to b."],
+  ["R ∩ R² keeps only pairs with both a 1-step and a 2-step path.", "R ∪ R⁻¹ is the symmetric closure.", "That is the diagonal (equality) relation."]);
+W('c6_22', "Degree = number of fields (domains) in each tuple.",
+  ["Fields: StudentID, Name, Major, GPA. That is 4.", "The 50 records are the number of tuples, not the degree."],
+  ["50 is the number of records.", "54 adds records and fields.", "200 multiplies them."]);
+W('c6_23', "Projection picks columns; selection picks rows.",
+  ["“Keep only chosen columns” is projection."],
+  ["Selection filters rows by a condition.", "Join combines two tables.", "Composition combines binary relations; it isn’t a table operation."]);
+W('c6_24', "A primary key’s value is never repeated, so it pins down one record.",
+  ["Like an employee ID: knowing it tells you exactly which row."],
+  ["Appearing in other tables isn’t required.", "Keys can be text.", "Then it couldn’t tell records apart."]);
+
+// ── TOPIC 7 ──
+W('c7_01', "Count the edges, then use handshaking: total degree = 2 × edges.",
+  ["Edges: A–B, B–C, C–I, G–A, H–I, A–F, F–E, F–H, F–G, E–C, E–I, C–D. That is 12.", "Total degree = 2 · 12 = 24."],
+  ["A and C are not joined directly (B sits between them).", "F’s neighbors: A, E, H, G. That is degree 4.", "The edges are written with “–” and have no arrows: undirected."]);
+W('c7_02', "Handshaking: sum of degrees = 2 × edges.",
+  ["4 + 3 + 3 + 2 + 2 + 2 = 16.", "e = 16/2 = 8."],
+  ["16 is the degree sum, not the edge count.", "6 is the number of vertices.", "5 doesn’t follow the rule."]);
+W('c7_03', "The degree sum must be even (it equals 2e).",
+  ["Add each list: 3+2+2+2 = 9 (odd). Impossible.", "Equivalently, it has one odd-degree vertex, and graphs always have an even number of them."],
+  ["2+2+2+2 = 8: a 4-cycle.", "3+3+2+2 = 10: K₄ minus one edge.", "1+1+1+1 = 4: two separate edges."]);
+W('c7_04', "Kₙ has n(n − 1)/2 edges: every pair is joined once.",
+  ["8·7/2 = 56/2 = 28."],
+  ["56 forgot to divide by 2 (each edge counted from both ends).", "64 = 8².", "8 is the number of vertices."]);
+W('c7_05', "Row i of the adjacency matrix: put a 1 in column j when vertex i is adjacent to vertex j.",
+  ["Order: a, b, c, d. The third row is vertex c.", "c’s neighbors: a (edge a–c) and b (edge b–c). Not c itself, not d.", "Row: 1 1 0 0."],
+  ["That would mean c is adjacent only to b.", "That would mean c is adjacent to a and d.", "A 1 in c’s own column means a loop, and there is none."]);
+W('c7_06', "An n-vertex graph has an n × n adjacency matrix, so n² entries.",
+  ["11 × 11 = 121."],
+  ["100 = 10².", "22 = 2·11.", "11 is just the number of rows."]);
+W('c7_07', "Compare invariants first (vertex count, edge count, degree list), then find a matching.",
+  ["G₁: 4-cycle, degrees 2, 2, 2, 2.", "G₂: triangle a–b–c plus c–d, degrees 2, 2, 3, 1.", "G₃: p–r–q–s–p, a 4-cycle, degrees 2, 2, 2, 2.", "G₁ and G₃ match: map 1→p, 2→r, 3→q, 4→s."],
+  ["G₂ has a degree-3 vertex; G₁ doesn’t.", "Same problem: G₂’s degree list differs from G₃’s.", "G₂ doesn’t match the others."]);
+W('c7_08', "Euler circuit (every edge once, back to the start) ⇔ connected and every degree even.",
+  ["Each time you pass through a vertex you use 2 edges (in and out), so degrees must be even."],
+  ["Exactly two odd vertices gives an Euler path, not a circuit.", "Degree ≥ n/2 is Dirac’s condition for Hamilton circuits.", "A tree has no circuits at all."]);
+W('c7_09', "Count the odd-degree vertices: 0 → Euler circuit; 2 → Euler path between them; more → neither.",
+  ["Degrees 2, 4, 3, 3, 2: two odd vertices (both degree 3).", "So there is an Euler path from one degree-3 vertex to the other, and no circuit."],
+  ["A circuit needs zero odd vertices.", "Two odd vertices is exactly the condition for an Euler path.", "The path must start and end at the odd vertices."]);
+W('c7_10', "The longest a cycle can be is n (a Hamilton circuit). Try to find one.",
+  ["6 vertices, so the maximum is 6.", "Try A–F–D–B–E–C–A: AF ✓, FD ✓, DB ✓, BE ✓, EC ✓, CA ✓.", "That is a cycle of length 6, the maximum."],
+  ["A cycle can’t repeat a vertex, so 7 is impossible with 6 vertices.", "A 6-cycle exists, so 5 isn’t the longest.", "A 6-cycle exists, so 4 isn’t the longest."]);
+W('c7_11', "Dirac: a simple graph with n ≥ 3 vertices, every degree ≥ n/2, has a Hamilton circuit.",
+  ["n = 10, so n/2 = 5.", "Every degree is at least 5, so Dirac applies: Hamilton circuit."],
+  ["Euler needs all degrees even, which isn’t given.", "Planarity isn’t guaranteed (such dense graphs often aren’t planar).", "A tree has only degree-1 leaves and n − 1 edges."]);
+W('c7_12', "A directed circuit follows existing arrows and ends where it started.",
+  ["⟨3, 4, 5, 3⟩: (3,4) ✓, (4,5) ✓, (5,3) ✓, and it ends at 3. A circuit."],
+  ["(4,1) doesn’t exist.", "(1,3) doesn’t exist (only 3 → 1).", "It starts at 4 and ends at 1, and (4,1) doesn’t exist."]);
+W('c7_13', "Euler’s formula for connected planar graphs: r = e − v + 2.",
+  ["e = 9, v = 6.", "r = 9 − 6 + 2 = 5."],
+  ["3 forgot the +2.", "17 adds everything.", "7 doesn’t follow the formula."]);
+W('c7_14', "K₅ and K₃,₃ are the classic nonplanar graphs.",
+  ["K₅ can’t be drawn without a crossing (Kuratowski’s theorem)."],
+  ["K₄ can be drawn as a triangle with a center vertex, with no crossings.", "A cycle is a simple ring.", "Trees never need crossings."]);
+W('c7_15', "In a digraph, a cycle must follow the arrows. Rotations of the same cycle count once.",
+  ["Try d → a → b → d: (d,a) ✓, (a,b) ✓, (b,d) ✓. A 3-cycle.", "Try the reverse d → b → a → d: (d,b) is missing.", "So there is exactly 1."],
+  ["Counting rotations (d-a-b, a-b-d, b-d-a) as different doesn’t give 4 either.", "d → a → b → d works.", "The reverse direction fails."]);
+W('c7_16', "Trees have exactly one path between any two vertices.",
+  ["Join u and v with a new edge.", "The old u–v path plus the new edge forms one cycle.", "Since the path was unique, there is only one cycle."],
+  ["The new edge always closes a loop.", "A second cycle would need a second u–v path.", "It is always exactly one."]);
+W('c7_17', "Count ordered sequences of other vertices for each cycle length. In a complete graph every order works.",
+  ["Other vertices: b, c, d.", "Length 3 (pick 2 in order): 3·2 = 6, e.g. a-b-c-a, a-c-b-a.", "Length 4 (all 3 in order): 3·2·1 = 6.", "Total 6 + 6 = 12."],
+  ["9 counts the length-3 cycles only once each (3), instead of once per direction (6), then adds the 6 of length 4.", "15 doesn’t match any way of counting; there are only 6 + 6 = 12.", "6 counts only one length (3 or 4), not both."]);
+W('c7_18', "Parents = vertices with at least one child (the internal vertices).",
+  ["Vertices with children: 1, 3, 4, 5, 8, 9.", "That is 6. The leaves 2, 6, 7, 10 aren’t parents."],
+  ["10 counts every vertex.", "5 misses one parent (check 9).", "4 misses two."]);
+W('c7_19', "A full m-ary tree with i internal vertices has n = m·i + 1 vertices.",
+  ["m = 3, i = 8.", "n = 3·8 + 1 = 25."],
+  ["24 forgot the root (+1).", "17 is the number of leaves, (m − 1)i + 1.", "33 doesn’t follow the formula."]);
+W('c7_20', "Encode each letter with its code and join them in order.",
+  ["S = 11101", "P = 1001", "A = 00", "C = 101", "E = 1101", "Joined: 11101 1001 00 101 1101 = 111011001001011101."],
+  ["It uses D (1000) where C (101) belongs: that spells SPADE.", "It uses P (1001) where C (101) belongs.", "It starts with P (1001), not S (11101)."]);
+W('c7_21', "Postorder: visit each child’s subtree left to right, then the parent. The root comes last.",
+  ["b’s subtree: d, then e’s subtree (i, j, e), then b → d, i, j, e, b.", "c’s subtree: f, g, then h’s subtree (k, h), then c → f, g, k, h, c.", "Finally a. Order: d, i, j, e, b, f, g, k, h, c, a."],
+  ["That is preorder (root first).", "That lists the leaves first, then the parents by level; it isn’t postorder.", "That is preorder written backward."]);
+W('c7_22', "Dijkstra: repeatedly finalize the closest unvisited vertex and update its neighbors.",
+  ["Start A = 0. Neighbors: C = 2, B = 4. Finalize C (2).", "From C: B = min(4, 2 + 1) = 3; D = 10; E = 12. Finalize B (3).", "From B: D = min(10, 3 + 5) = 8. Finalize D (8).", "From D: E = min(12, 8 + 2) = 10. Shortest A → E = 10 (A–C–B–D–E)."],
+  ["12 is the direct route A–C–E.", "11 doesn’t match any route.", "9 doesn’t match any route."]);
+W('c7_23', "DFS: go to the lowest-numbered unvisited neighbor; when stuck, back up.",
+  ["Start 1. Neighbors 2, 3 → go to 2.", "2’s unvisited neighbor: 4 → go to 4.", "4’s unvisited: 3, 5 → go to 3 (lowest). 3 is stuck (1, 4 visited), so back up to 4.", "4 → 5 → 6. Order: 1-2-4-3-5-6."],
+  ["That is breadth-first order (visit all of 1’s neighbors first).", "It visits 3 before 2, which isn’t lowest-first.", "At 4 it picks 5 before the lower-numbered 3."]);
+W('c7_24', "Kruskal: cheapest edge anywhere that doesn’t form a circuit. Prim: cheapest edge that grows the one tree.",
+  ["Kruskal sorts all edges by weight.", "It adds each edge unless it would create a circuit, and may build several pieces that later join."],
+  ["Growing one tree from a vertex is Prim.", "Visiting the closest vertex from a start is Dijkstra.", "Going deep before backtracking is DFS."]);
 
 // ═══════════════════════════════════════════════
 //  PAGE BEHAVIOUR
@@ -2107,6 +2594,31 @@ function dotsHTML(cur) {
   }).join('');
 }
 
+
+// ── Walkthrough panel (key idea, steps, why each wrong choice is wrong) ──
+function walkHTML(q, it, open) {
+  const w = (typeof WALK !== 'undefined') && WALK[q.id];
+  if (!w) return '';
+  const letter = oi => String.fromCharCode(65 + it.order.indexOf(oi));
+  const picked = it.pick;
+  const wrongs = it.order.filter(oi => oi !== 0).map(oi => {
+    const mine = oi === picked;
+    return `<li class="${mine ? 'mine' : ''}"><span class="wl">${letter(oi)}</span><div><div class="wopt">${q.o[oi]}${mine ? ' <b class="yours">Your answer</b>' : ''}</div><div class="wwhy">${w.w[oi - 1]}</div></div></li>`;
+  }).join('');
+  return `<details class="walk"${open ? ' open' : ''}>
+    <summary>Walk me through it</summary>
+    <div class="walk-body">
+      <div class="walk-key"><span class="walk-lbl">Key idea</span>${w.k}</div>
+      <div class="walk-lbl" style="margin-top:12px;">Step by step</div>
+      <ol class="steps">${w.s.map(x => `<li>${x}</li>`).join('')}</ol>
+      <div class="walk-ans">Answer: <b>${letter(0)}. ${q.o[0]}</b></div>
+      <div class="walk-lbl" style="margin-top:12px;">Why the other choices are wrong</div>
+      <ul class="walk-wrong">${wrongs}</ul>
+      <a href="#${q.t}" class="walk-link">Reread: ${TOPICS[q.t].name} →</a>
+    </div>
+  </details>`;
+}
+
 function renderCard(idx, dir) {
   exam.idx = idx; saveProgress();
   const it = exam.items[idx], q = QMAP[it.id], total = exam.items.length;
@@ -2117,7 +2629,7 @@ function renderCard(idx, dir) {
     return `<div class="${cls}" role="button" tabindex="0" data-oi="${oi}"><span class="ltr">${String.fromCharCode(65 + pos)}</span><span>${q.o[oi]}</span></div>`;
   }).join('');
   const explain = answered
-    ? `<div class="card-explain"><span class="verdict ${isRight(it) ? 'ok' : 'no'}">${isRight(it) ? '✓ Correct' : '✗ Not quite'}</span>${q.e}<div style="margin-top:8px;"><a href="#${q.t}" style="font-size:13px;font-weight:700;">Review: ${TOPICS[q.t].name} →</a></div></div>`
+    ? `<div class="card-explain"><span class="verdict ${isRight(it) ? 'ok' : 'no'}">${isRight(it) ? '✓ Correct' : '✗ Not quite'}</span>${q.e}</div>${walkHTML(q, it, !isRight(it))}`
     : '';
   const isLast = idx === total - 1;
   const remaining = total - answeredCount();
@@ -2283,7 +2795,7 @@ function reviewExam(rec) {
     return `<div class="review-card rc-${state}">
       <div class="review-q"><small>${icon} · Q${n + 1} · ${TOPICS[q.t].name}${q.src === 'course' ? ' · Course practice' : ''}</small>${q.q}</div>
       <div class="review-opts">${opts}</div>
-      <div class="review-ex">${q.e} <a href="#${q.t}" style="font-weight:700;white-space:nowrap;">Review topic →</a></div></div>`;
+      <div class="review-ex">${q.e}</div>${walkHTML(q, it, false)}</div>`;
   }).join('') || '<p style="color:var(--muted)">No questions in this filter.</p>';
   const fb = (k, label) => `<button class="mini-btn ${reviewFilter === k ? 'on' : ''}" data-act="filter" data-f="${k}">${label} (${counts[k]})</button>`;
   document.getElementById('card-area').innerHTML = `
